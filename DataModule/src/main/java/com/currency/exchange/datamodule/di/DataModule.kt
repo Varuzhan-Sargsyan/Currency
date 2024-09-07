@@ -1,5 +1,7 @@
 package com.currency.exchange.datamodule.di
 
+import com.currency.exchange.datamodule.data.datasource.AppDatabase
+import com.currency.exchange.datamodule.domain.api.CurrencyApi
 import com.currency.exchange.datamodule.domain.repositories.CurrencyRepository
 import com.currency.exchange.datamodule.usecase.ICurrency
 import dagger.Module
@@ -9,11 +11,17 @@ import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
-@Module
+@Module(includes = [DatabaseModule::class, NetworkModule::class])
 class DataModule {
 
     @Singleton
     @Provides
-    fun provideCurrencyRepository() = CurrencyRepository() as ICurrency
+    fun provideCurrencyRepository(
+        appDatabase: AppDatabase,
+        currencyApi: CurrencyApi
+    ) = CurrencyRepository(
+        appDatabase = appDatabase,
+        currencyApi = currencyApi
+    ) as ICurrency
 
 }

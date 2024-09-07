@@ -1,4 +1,4 @@
-package com.currency.exchange.datamodule.data.model
+package com.currency.exchange.datamodule.data.model.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

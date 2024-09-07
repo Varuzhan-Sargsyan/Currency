@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.currency.exchange.datamodule.data.model.Currency
-import com.currency.exchange.datamodule.data.model.Rate
+import com.currency.exchange.datamodule.data.model.entities.Currency
+import com.currency.exchange.datamodule.data.model.entities.Rate
 
 @Database(
     entities = [

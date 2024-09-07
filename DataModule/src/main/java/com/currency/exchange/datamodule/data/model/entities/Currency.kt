@@ -1,4 +1,4 @@
-package com.currency.exchange.datamodule.data.model
+package com.currency.exchange.datamodule.data.model.entities
 
 import androidx.room.Entity
 import androidx.room.Ignore
@@ -18,9 +18,15 @@ data class Currency (
     var nextUpdateUnix: Long = 0L,
     @SerializedName("time_next_update_utc")
     var nextUpdateUtc: String = "",
-    @SerializedName("conversion_rates")
+    @SerializedName("base_code")
     var baseCode: String = "",
 
     @Ignore
+    @SerializedName("conversion_rates")
     var conversionRates: List<Rate> = listOf()
-)
+) {
+    companion object {
+        fun firstDefaultCurrency() = Currency(baseCode = "USD")
+        fun secondDefaultCurrency() = Currency(baseCode = "GBP")
+    }
+}

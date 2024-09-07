@@ -1,6 +1,7 @@
 package com.currency.exchange.datamodule.di
 
 import android.content.Context
+import com.currency.exchange.datamodule.domain.api.CurrencyApi
 import com.currency.exchange.datamodule.domain.api.RequestInterceptor
 import com.google.gson.Gson
 import dagger.Module
@@ -16,7 +17,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
-const val BASE_URL = "https://jsonplaceholder.typicode.com/"
+const val BASE_URL = "https://v6.exchangerate-api.com/"
 
 @InstallIn(SingletonComponent::class)
 @Module
@@ -41,7 +42,7 @@ class NetworkModule {
     fun providesOkHttpClient(
         @ApplicationContext context: Context,
         requestInterceptor: Interceptor
-    ): OkHttpClient {
+    ) : OkHttpClient {
         val cacheSize = (5 * 1024 * 1024).toLong()
         val mCache = Cache(context.cacheDir, cacheSize)
         val client = OkHttpClient.Builder()
@@ -76,14 +77,17 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun providesGson(): Gson {
-        return Gson()
-    }
+    fun providesGson() : Gson =
+        Gson()
 
     @Provides
     @Singleton
-    fun providesGsonConverterFactory(): GsonConverterFactory {
-        return GsonConverterFactory.create()
-    }
+    fun providesGsonConverterFactory() : GsonConverterFactory =
+        GsonConverterFactory.create()
+
+    @Provides
+    @Singleton
+    fun provideCurrencyApi(retrofit: Retrofit) : CurrencyApi =
+        retrofit.create(CurrencyApi::class.java)
 
 }

@@ -1,3 +1,6 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
@@ -20,6 +23,13 @@ android {
                 arg("room.schemaLocation", "$projectDir/schemas")
             }
         }
+
+        // Load the property from local.properties
+        val localProperties = Properties()
+        localProperties.load(FileInputStream(rootProject.file("local.properties")))
+
+        // Add the property to the build config fields
+        buildConfigField("String", "SECRET_KEY", "\"${localProperties.getProperty("SECRET_KEY")}\"")
     }
 
     buildTypes {
@@ -37,6 +47,9 @@ android {
     }
     kotlinOptions {
         jvmTarget = "19"
+    }
+    buildFeatures {
+        buildConfig = true
     }
 }
 
