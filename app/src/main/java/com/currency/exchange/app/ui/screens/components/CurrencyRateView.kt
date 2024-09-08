@@ -8,10 +8,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.currency.exchange.app.ui.extensions.OnClick
+import com.currency.exchange.app.ui.screens.components.currency.BaseCodeView
+import com.currency.exchange.app.ui.screens.components.rate.RateView
+import com.currency.exchange.app.ui.theme.Sizes.verticalDividerHeight
 import com.currency.exchange.datamodule.data.model.entities.Currency
 
 @Composable
-fun CurrencyView(
+fun CurrencyRateView(
     currency: Currency,
     sum: String,
     onCurrency: OnClick,
@@ -21,12 +24,12 @@ fun CurrencyView(
         Row(
             verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
         ) {
-            CurrencyValueView(
+            RateView(
                 modifier = Modifier.weight(1f),
                 text = sum,
                 onClick = onValue
             )
-            VerticalDivider(modifier = Modifier.height(45.dp))
+            VerticalDivider(modifier = Modifier.height(verticalDividerHeight))
             BaseCodeView(
                 currency = currency.baseCode,
                 onClick = onCurrency
@@ -38,7 +41,7 @@ fun CurrencyView(
 @Preview
 @Composable
 fun BaseCodeExchangeViewPreview() {
-    CurrencyView(
+    CurrencyRateView(
         currency = Currency(baseCode = "USD"),
         sum = "2002.02",
         onCurrency = {},

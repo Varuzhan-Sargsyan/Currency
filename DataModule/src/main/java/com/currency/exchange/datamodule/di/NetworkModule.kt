@@ -3,6 +3,9 @@ package com.currency.exchange.datamodule.di
 import android.content.Context
 import com.cattlesoft.cattlemax.module.domain.convertor.CurrenciesDeserializer
 import com.cattlesoft.cattlemax.module.domain.convertor.CurrenciesSerializer
+import com.cattlesoft.cattlemax.module.domain.convertor.RateDeserializer
+import com.cattlesoft.cattlemax.module.domain.convertor.RateSerializer
+import com.currency.exchange.datamodule.data.model.entities.Rate
 import com.currency.exchange.datamodule.data.model.responses.Currencies
 import com.currency.exchange.datamodule.domain.api.CurrencyApi
 import com.currency.exchange.datamodule.domain.api.RequestInterceptor
@@ -78,13 +81,14 @@ class NetworkModule {
             }
         return client.build()
     }
-
     @Provides
     @Singleton
     fun providesGson() : Gson =
         GsonBuilder()
             .registerTypeAdapter(Currencies::class.java, CurrenciesSerializer())
             .registerTypeAdapter(Currencies::class.java, CurrenciesDeserializer())
+            .registerTypeAdapter(Rate::class.java, RateSerializer())
+            .registerTypeAdapter(Rate::class.java, RateDeserializer())
             .create()
 
     @Provides

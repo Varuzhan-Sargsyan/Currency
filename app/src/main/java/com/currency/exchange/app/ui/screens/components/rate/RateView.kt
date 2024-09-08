@@ -1,4 +1,4 @@
-package com.currency.exchange.app.ui.screens.components
+package com.currency.exchange.app.ui.screens.components.rate
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -13,16 +13,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.currency.exchange.app.ui.extensions.OnClick
 import com.currency.exchange.app.ui.theme.Paddings.normal
+import com.currency.exchange.app.ui.theme.Sizes.currencyRateViewHeight
 
 @Composable
-fun CurrencyValueView(
+fun RateView(
     modifier: Modifier = Modifier,
     text: String,
     onClick: OnClick
 ) {
     Row (
         modifier = Modifier
-            .height(50.dp)
+            .height(currencyRateViewHeight)
             .clickable { onClick() }
             .then(modifier),
         verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
@@ -37,11 +38,11 @@ fun CurrencyValueView(
 @Composable
 fun NameViewPreview() {
     Column {
-        CurrencyValueView(
+        RateView(
             text = "0.0",
             onClick = {}
         )
-        CurrencyValueView(
+        RateView(
             text = "555.000555",
             onClick = {}
         )

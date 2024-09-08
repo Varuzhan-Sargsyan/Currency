@@ -45,4 +45,6 @@ object Texts {
 object Sizes {
     val groupTitle = 14.sp
     val numberPadButtonSize = 60.dp
+    val currencyRateViewHeight = 50.dp
+    val verticalDividerHeight = 45.dp
 }

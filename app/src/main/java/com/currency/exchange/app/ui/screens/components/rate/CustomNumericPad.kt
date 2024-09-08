@@ -1,4 +1,4 @@
-package com.currency.exchange.app.ui.screens.dialog
+package com.currency.exchange.app.ui.screens.components.rate
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -41,7 +41,6 @@ import com.currency.exchange.app.ui.theme.Shapes.numberPadButtonShape
 import com.currency.exchange.app.ui.theme.Sizes.numberPadButtonSize
 import com.currency.exchange.app.ui.theme.Texts.numberPadTextSize
 import com.currency.exchange.app.ui.theme.groupViewBackgroundColor
-import kotlin.math.min
 
 @Composable
 fun CustomNumericPad(

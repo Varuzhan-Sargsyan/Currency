@@ -17,7 +17,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import com.currency.exchange.app.ui.screens.components.CurrencyView
+import com.currency.exchange.app.ui.screens.components.CurrencyRateView
+import com.currency.exchange.app.ui.screens.dialog.CurrencySelectionDialog
 import com.currency.exchange.app.ui.screens.dialog.NumberInputDialog
 import com.currency.exchange.app.ui.theme.CurrencyAppTheme
 import com.currency.exchange.app.ui.theme.Paddings.normal
@@ -38,6 +39,9 @@ class MainActivity : ComponentActivity() {
                     var selectFirstCurrency by remember { mutableStateOf(false) }
                     var selectSecondCurrency by remember { mutableStateOf(false) }
 
+                    var editFirstRate by remember { mutableStateOf(false) }
+                    var editSecondRate by remember { mutableStateOf(false) }
+
                     val stateFirstCurrency = viewModel.stateFirstCurrency.collectAsState()
                     val stateSecondCurrency = viewModel.stateSecondCurrency.collectAsState()
 
@@ -50,37 +54,59 @@ class MainActivity : ComponentActivity() {
                         Column(
                             modifier = Modifier.padding(normal)
                         ) {
-                            CurrencyView(
+                            CurrencyRateView(
                                 currency = stateFirstCurrency.value,
                                 sum = stateFirstValue.value.toString(),
-                                onCurrency = {  },
-                                onValue = { selectFirstCurrency = true }
+                                onCurrency = { selectFirstCurrency = true },
+                                onValue = { editFirstRate = true }
                             )
                             Spacer(modifier = Modifier.padding(normal))
-                            CurrencyView(
+                            CurrencyRateView(
                                 currency = stateSecondCurrency.value,
                                 sum = stateSecondValue.value.toString(),
-                                onCurrency = {},
-                                onValue = { selectSecondCurrency = true }
+                                onCurrency = { selectSecondCurrency = true },
+                                onValue = { editSecondRate = true }
                             )
                         }
                     }
 
-                    if (selectFirstCurrency)
+                    if (editFirstRate)
                         NumberInputDialog(
                             value = stateFirstValue.value.toString(),
                             onValue = {
                                 viewModel.stateFirstValue.value = it.toDouble()
+                                editFirstRate = false
+                            },
+                            onClose = { editFirstRate = false }
+                        )
+
+                    if (editSecondRate)
+                        NumberInputDialog(
+                            value = stateSecondValue.value.toString(),
+                            onValue = {
+                                viewModel.stateSecondValue.value = it.toDouble()
+                                editSecondRate = false
+                            },
+                            onClose = { editSecondRate = false }
+                        )
+
+                    if (selectFirstCurrency)
+                        CurrencySelectionDialog(
+                            currency = stateFirstCurrency.value,
+                            currencies = viewModel.currencies.value,
+                            onValue = {
+                                viewModel.stateFirstCurrency.value = it
                                 selectFirstCurrency = false
                             },
                             onClose = { selectFirstCurrency = false }
                         )
 
                     if (selectSecondCurrency)
-                        NumberInputDialog(
-                            value = stateSecondValue.value.toString(),
+                        CurrencySelectionDialog(
+                            currency = stateSecondCurrency.value,
+                            currencies = viewModel.currencies.value,
                             onValue = {
-                                viewModel.stateSecondValue.value = it.toDouble()
+                                viewModel.stateSecondCurrency.value = it
                                 selectSecondCurrency = false
                             },
                             onClose = { selectSecondCurrency = false }

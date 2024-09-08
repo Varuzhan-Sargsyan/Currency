@@ -1,4 +1,4 @@
-package com.currency.exchange.app.ui.screens.components
+package com.currency.exchange.app.ui.screens.components.currency
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.currency.exchange.app.ui.extensions.OnClick
 import com.currency.exchange.app.ui.theme.Paddings.medium
 import com.currency.exchange.app.ui.theme.Paddings.small
+import com.currency.exchange.app.ui.theme.Sizes.currencyRateViewHeight
 import com.currency.exchange.app.ui.theme.Texts
 
 @Composable
@@ -26,9 +27,8 @@ fun BaseCodeView(
 ) {
     Row (
         modifier = Modifier
-            .height(50.dp)
+            .height(currencyRateViewHeight)
             .clickable { onClick() }
-//            .border(1.dp, MaterialTheme.groupViewTextColor())
             .then(modifier),
         verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
     ) {

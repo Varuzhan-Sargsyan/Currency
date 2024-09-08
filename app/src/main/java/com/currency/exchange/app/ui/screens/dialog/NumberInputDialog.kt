@@ -6,6 +6,7 @@ import androidx.compose.ui.window.Dialog
 import com.currency.exchange.app.ui.extensions.OnClick
 import com.currency.exchange.app.ui.extensions.OnString
 import com.currency.exchange.app.ui.screens.components.GroupView
+import com.currency.exchange.app.ui.screens.components.rate.CustomNumericPad
 
 @Composable
 fun NumberInputDialog(

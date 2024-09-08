@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "2a1dd2a2041ae7f4277b73d7f7a9aea9",
+    "identityHash": "4da9f00c6750514ff8714fc454b6c814",
     "entities": [
       {
         "tableName": "currency",
@@ -32,23 +32,29 @@
       },
       {
         "tableName": "rate",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `currencyId` INTEGER NOT NULL, `name` TEXT NOT NULL, `rate` REAL NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`amount` REAL NOT NULL, `date` TEXT, `base` TEXT NOT NULL, `baseSecond` TEXT NOT NULL, `rate` REAL NOT NULL, PRIMARY KEY(`base`))",
         "fields": [
           {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "INTEGER",
+            "fieldPath": "amount",
+            "columnName": "amount",
+            "affinity": "REAL",
             "notNull": true
           },
           {
-            "fieldPath": "currencyId",
-            "columnName": "currencyId",
-            "affinity": "INTEGER",
+            "fieldPath": "date",
+            "columnName": "date",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "base",
+            "columnName": "base",
+            "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "name",
-            "columnName": "name",
+            "fieldPath": "baseSecond",
+            "columnName": "baseSecond",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -60,9 +66,9 @@
           }
         ],
         "primaryKey": {
-          "autoGenerate": true,
+          "autoGenerate": false,
           "columnNames": [
-            "id"
+            "base"
           ]
         },
         "indices": [],
@@ -72,7 +78,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2a1dd2a2041ae7f4277b73d7f7a9aea9')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4da9f00c6750514ff8714fc454b6c814')"
     ]
   }
 }

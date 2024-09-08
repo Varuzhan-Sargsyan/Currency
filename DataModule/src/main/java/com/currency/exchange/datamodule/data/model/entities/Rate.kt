@@ -6,12 +6,17 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "rate")
 data class Rate(
 
-    @PrimaryKey(autoGenerate = true)
-    var id: Long = 0,
+    var amount: Double = 0.0,
+    var date: String? = null,
 
-    var currencyId: Long = 0L,
+    @PrimaryKey(autoGenerate = false)
+    var base: String = "",
 
-    var name: String = "",
-    var rate: Double = 0.0
+    var baseSecond: String = "",
+    var rate: Double = 1.0
 
-)
+) {
+    companion object {
+        fun default() = Rate(amount = 1.0, base = "USD", baseSecond = "GBP", rate = 1.0)
+    }
+}
