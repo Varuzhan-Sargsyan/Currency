@@ -5,6 +5,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.window.Dialog
 import com.currency.exchange.app.ui.extensions.OnClick
 import com.currency.exchange.app.ui.extensions.OnString
+import com.currency.exchange.app.ui.screens.components.GroupView
 
 @Composable
 fun NumberInputDialog(
@@ -15,11 +16,13 @@ fun NumberInputDialog(
     if (value == null) return
 
     Dialog(onDismissRequest = onClose) {
-        CustomNumericPad(
-            initialValue = value,
-            onClose = onClose,
-            onValue = onValue
-        )
+        GroupView {
+            CustomNumericPad(
+                initialValue = value,
+                onClose = onClose,
+                onValue = onValue
+            )
+        }
     }
 }
 

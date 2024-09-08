@@ -1,6 +1,7 @@
 package com.currency.exchange.app.ui.screens.components
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -35,8 +36,14 @@ fun CurrencyValueView(
 @Preview(showBackground = true)
 @Composable
 fun NameViewPreview() {
-    CurrencyValueView(
-        text = "555.000555",
-        onClick = {}
-    )
+    Column {
+        CurrencyValueView(
+            text = "0.0",
+            onClick = {}
+        )
+        CurrencyValueView(
+            text = "555.000555",
+            onClick = {}
+        )
+    }
 }

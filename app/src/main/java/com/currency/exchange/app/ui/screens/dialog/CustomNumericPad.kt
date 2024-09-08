@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
@@ -33,12 +34,14 @@ import androidx.compose.ui.unit.dp
 import com.currency.exchange.app.R
 import com.currency.exchange.app.ui.extensions.OnClick
 import com.currency.exchange.app.ui.extensions.OnString
+import com.currency.exchange.app.ui.extensions.addLabel
 import com.currency.exchange.app.ui.theme.Paddings.big
 import com.currency.exchange.app.ui.theme.Paddings.normal
 import com.currency.exchange.app.ui.theme.Shapes.numberPadButtonShape
 import com.currency.exchange.app.ui.theme.Sizes.numberPadButtonSize
 import com.currency.exchange.app.ui.theme.Texts.numberPadTextSize
 import com.currency.exchange.app.ui.theme.groupViewBackgroundColor
+import kotlin.math.min
 
 @Composable
 fun CustomNumericPad(
@@ -46,8 +49,7 @@ fun CustomNumericPad(
     onClose: OnClick,
     onValue: OnString
 ) {
-    var inputValue by remember { mutableStateOf("") }
-    inputValue = initialValue
+    var inputValue by remember { mutableStateOf(initialValue) }
 
     Column(
         modifier = Modifier
@@ -57,12 +59,13 @@ fun CustomNumericPad(
     ) {
         // Display the updated input value
         Text(
-            text = inputValue.ifEmpty { "Enter Value" },
+            text = inputValue,
             fontSize = numberPadTextSize,
             fontWeight = FontWeight.Bold,
             modifier = Modifier
                 .padding(normal)
                 .fillMaxWidth()
+                .heightIn(min = 40.dp)
         )
 
         Spacer(modifier = Modifier.height(normal))
@@ -87,11 +90,7 @@ fun CustomNumericPad(
                         row.forEach { label ->
                             label?.let {
                                 NumericButton(label) {
-                                    inputValue = when (label) {
-                                        "C" -> ""
-                                        "." -> if (!inputValue.contains(".")) inputValue + label else inputValue
-                                        else -> inputValue + label
-                                    }
+                                    inputValue = inputValue.addLabel(label)
                                 }
                             } ?: run {
                                 EmptyButton()
@@ -112,7 +111,7 @@ fun CustomNumericPad(
                 }
                 Spacer(modifier = Modifier.size(normal))
                 NumericButton("C") {
-                    inputValue = ""
+                    inputValue = inputValue.addLabel("C")
                 }
             }
         }
@@ -122,7 +121,7 @@ fun CustomNumericPad(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceAround
         ) {
-            TextButton(R.string.button_exit) { onClose() }
+            TextButton(R.string.button_exit, onClose)
             TextButton(R.string.button_save) { onValue(inputValue) }
         }
         Spacer(modifier = Modifier.size(normal))
@@ -164,7 +163,7 @@ fun IconButton(id: Int, onBackspace: OnClick) {
             Icon(
                 painterResource(id),
                 modifier = Modifier
-                    .size(32.dp)
+                    .size(24.dp)
                     .align(Alignment.Center),
                 contentDescription = "Backspace",
             )
@@ -197,11 +196,11 @@ fun EmptyButton() {
 }
 
 @Composable
-fun TextButton(id: Int, onBackspace: OnClick) {
+fun TextButton(id: Int, onClick: OnClick) {
     Box(
         modifier = Modifier
             .padding(vertical = normal, horizontal = big)
-            .clickable { onBackspace() }
+            .clickable { onClick() }
     ) {
         Text(
             text = stringResource(id),
@@ -219,7 +218,7 @@ fun TextButton(id: Int, onBackspace: OnClick) {
 @Composable
 fun CustomNumericPadPreview() {
     CustomNumericPad(
-        initialValue = "123.45",
+        initialValue = "",
         onClose = {},
         onValue = {}
     )

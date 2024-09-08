@@ -61,7 +61,7 @@ class MainActivity : ComponentActivity() {
                                 currency = stateSecondCurrency.value,
                                 sum = stateSecondValue.value.toString(),
                                 onCurrency = {},
-                                onValue = {}
+                                onValue = { selectSecondCurrency = true }
                             )
                         }
                     }
@@ -71,7 +71,7 @@ class MainActivity : ComponentActivity() {
                             value = stateFirstValue.value.toString(),
                             onValue = {
                                 viewModel.stateFirstValue.value = it.toDouble()
-                                selectSecondCurrency = false
+                                selectFirstCurrency = false
                             },
                             onClose = { selectFirstCurrency = false }
                         )
