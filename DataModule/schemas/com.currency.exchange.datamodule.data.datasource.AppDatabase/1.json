@@ -2,53 +2,29 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "ddcb5cf88bfeb502d08601c58fbd766e",
+    "identityHash": "2a1dd2a2041ae7f4277b73d7f7a9aea9",
     "entities": [
       {
         "tableName": "currency",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `lastUpdateUnix` INTEGER NOT NULL, `lastUpdateUtc` TEXT NOT NULL, `nextUpdateUnix` INTEGER NOT NULL, `nextUpdateUtc` TEXT NOT NULL, `baseCode` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`baseCode` TEXT NOT NULL, `name` TEXT NOT NULL, PRIMARY KEY(`baseCode`))",
         "fields": [
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "lastUpdateUnix",
-            "columnName": "lastUpdateUnix",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "lastUpdateUtc",
-            "columnName": "lastUpdateUtc",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "nextUpdateUnix",
-            "columnName": "nextUpdateUnix",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "nextUpdateUtc",
-            "columnName": "nextUpdateUtc",
-            "affinity": "TEXT",
-            "notNull": true
-          },
           {
             "fieldPath": "baseCode",
             "columnName": "baseCode",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
           }
         ],
         "primaryKey": {
-          "autoGenerate": true,
+          "autoGenerate": false,
           "columnNames": [
-            "id"
+            "baseCode"
           ]
         },
         "indices": [],
@@ -96,7 +72,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ddcb5cf88bfeb502d08601c58fbd766e')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2a1dd2a2041ae7f4277b73d7f7a9aea9')"
     ]
   }
 }

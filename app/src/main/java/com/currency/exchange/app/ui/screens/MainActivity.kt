@@ -69,14 +69,20 @@ class MainActivity : ComponentActivity() {
                     if (selectFirstCurrency)
                         NumberInputDialog(
                             value = stateFirstValue.value.toString(),
-                            onValue = { viewModel.stateFirstValue.value = it.toDouble() },
+                            onValue = {
+                                viewModel.stateFirstValue.value = it.toDouble()
+                                selectSecondCurrency = false
+                            },
                             onClose = { selectFirstCurrency = false }
                         )
 
                     if (selectSecondCurrency)
                         NumberInputDialog(
                             value = stateSecondValue.value.toString(),
-                            onValue = { viewModel.stateSecondValue.value = it.toDouble() },
+                            onValue = {
+                                viewModel.stateSecondValue.value = it.toDouble()
+                                selectSecondCurrency = false
+                            },
                             onClose = { selectSecondCurrency = false }
                         )
                 }

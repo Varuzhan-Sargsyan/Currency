@@ -15,6 +15,9 @@ import com.currency.exchange.datamodule.data.model.entities.Rate
     version = 1,
     exportSchema = true
 )
+//@TypeConverters(
+//    CurrencyListConverter::class
+//)
 abstract class AppDatabase : RoomDatabase() {
     abstract val daoCurrency: CurrencyDao
     abstract val daoRate: RateDao

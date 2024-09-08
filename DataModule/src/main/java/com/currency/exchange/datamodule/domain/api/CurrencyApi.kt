@@ -1,14 +1,18 @@
 package com.currency.exchange.datamodule.domain.api
 
-import com.currency.exchange.datamodule.BuildConfig
+import com.currency.exchange.datamodule.data.model.responses.Currencies
 import com.currency.exchange.datamodule.data.model.entities.Currency
 import retrofit2.Response
 import retrofit2.http.GET
-import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface CurrencyApi {
-    @GET("v6/${BuildConfig.SECRET_KEY}/latest/{base_code}")
-    suspend fun downloadCurrency(
-        @Path("base_code") baseCode: String,
-    ) : Response<Currency>
+    @GET("currencies")
+    suspend fun downloadCurrencies() : Response<Currencies>
+
+    @GET("latest?from={from}&to={to}")
+    suspend fun downloadRate(
+        @Query("from") from: String,
+        @Query("to") to: String
+    ) : Response<List<Currency>>
 }

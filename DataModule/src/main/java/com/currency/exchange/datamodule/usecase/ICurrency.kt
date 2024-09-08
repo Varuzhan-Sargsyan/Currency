@@ -5,6 +5,6 @@ import com.currency.exchange.datamodule.data.model.responses.Response
 import kotlinx.coroutines.flow.Flow
 
 interface ICurrency {
-    suspend fun download(baseCode: String) : Response
-    suspend fun subscribeToCurrency(baseCode: String) : Flow<Currency?>
+    suspend fun downloadCurrencies() : Response
+    suspend fun subscribeToCurrencies() : Flow<List<Currency>>
 }

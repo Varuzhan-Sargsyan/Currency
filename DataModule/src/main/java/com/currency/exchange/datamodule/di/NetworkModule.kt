@@ -1,9 +1,13 @@
 package com.currency.exchange.datamodule.di
 
 import android.content.Context
+import com.cattlesoft.cattlemax.module.domain.convertor.CurrenciesDeserializer
+import com.cattlesoft.cattlemax.module.domain.convertor.CurrenciesSerializer
+import com.currency.exchange.datamodule.data.model.responses.Currencies
 import com.currency.exchange.datamodule.domain.api.CurrencyApi
 import com.currency.exchange.datamodule.domain.api.RequestInterceptor
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,7 +21,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
-const val BASE_URL = "https://v6.exchangerate-api.com/"
+const val BASE_URL = "https://api.frankfurter.app/"
 
 @InstallIn(SingletonComponent::class)
 @Module
@@ -78,12 +82,15 @@ class NetworkModule {
     @Provides
     @Singleton
     fun providesGson() : Gson =
-        Gson()
+        GsonBuilder()
+            .registerTypeAdapter(Currencies::class.java, CurrenciesSerializer())
+            .registerTypeAdapter(Currencies::class.java, CurrenciesDeserializer())
+            .create()
 
     @Provides
     @Singleton
-    fun providesGsonConverterFactory() : GsonConverterFactory =
-        GsonConverterFactory.create()
+    fun providesGsonConverterFactory(gson: Gson) : GsonConverterFactory =
+        GsonConverterFactory.create(gson)
 
     @Provides
     @Singleton
