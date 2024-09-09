@@ -15,3 +15,6 @@ fun String.addLabel(label: String) =
                 this + label
         }
     }
+
+fun Double.roundToDecimalPlaces(places: Int = 4) =
+    (this * (10.0 * places)) / (10.0 * places)

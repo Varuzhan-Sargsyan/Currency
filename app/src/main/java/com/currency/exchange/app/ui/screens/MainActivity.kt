@@ -56,14 +56,14 @@ class MainActivity : ComponentActivity() {
                         ) {
                             CurrencyRateView(
                                 currency = stateFirstCurrency.value,
-                                sum = stateFirstValue.value.toString(),
+                                sum = stateFirstValue.value,
                                 onCurrency = { selectFirstCurrency = true },
                                 onValue = { editFirstRate = true }
                             )
                             Spacer(modifier = Modifier.padding(normal))
                             CurrencyRateView(
                                 currency = stateSecondCurrency.value,
-                                sum = stateSecondValue.value.toString(),
+                                sum = stateSecondValue.value,
                                 onCurrency = { selectSecondCurrency = true },
                                 onValue = { editSecondRate = true }
                             )
@@ -72,9 +72,9 @@ class MainActivity : ComponentActivity() {
 
                     if (editFirstRate)
                         NumberInputDialog(
-                            value = stateFirstValue.value.toString(),
+                            value = viewModel.firstValue.toString(),
                             onValue = {
-                                viewModel.stateFirstValue.value = it.toDouble()
+                                viewModel.firstValue = it.toDouble()
                                 editFirstRate = false
                             },
                             onClose = { editFirstRate = false }
@@ -82,9 +82,9 @@ class MainActivity : ComponentActivity() {
 
                     if (editSecondRate)
                         NumberInputDialog(
-                            value = stateSecondValue.value.toString(),
+                            value = viewModel.secondValue.toString(),
                             onValue = {
-                                viewModel.stateSecondValue.value = it.toDouble()
+                                viewModel.secondValue = it.toDouble()
                                 editSecondRate = false
                             },
                             onClose = { editSecondRate = false }

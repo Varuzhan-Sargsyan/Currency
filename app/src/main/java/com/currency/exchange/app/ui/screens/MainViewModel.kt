@@ -2,6 +2,7 @@ package com.currency.exchange.app.ui.screens
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.currency.exchange.app.ui.extensions.roundToDecimalPlaces
 import com.currency.exchange.app.ui.extensions.runInThread
 import com.currency.exchange.datamodule.data.model.entities.Currency
 import com.currency.exchange.datamodule.data.model.entities.Rate
@@ -15,7 +16,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.merge
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
@@ -27,9 +28,6 @@ class MainViewModel @Inject constructor(
 
     val stateFirstCurrency = MutableStateFlow(Currency.firstDefaultCurrency())
     val stateSecondCurrency = MutableStateFlow(Currency.secondDefaultCurrency())
-
-    val stateFirstValue = MutableStateFlow(1.0)
-    val stateSecondValue = MutableStateFlow(1.0)
 
     private val rate = MutableStateFlow(Rate.default())
 
@@ -55,8 +53,17 @@ class MainViewModel @Inject constructor(
         }
 
         runInThread {
-            merge(stateFirstValue, stateSecondValue).collect {
+            combine(stateFirstCurrency, stateSecondCurrency) { first, second ->
+                Pair(first, second)
+            }.collect {
+                rateRepository.downloadRate(it.first.baseCode, it.second.baseCode)
                 subscribeToRate()
+            }
+        }
+
+        runInThread {
+            rate.collect {
+                secondValue = (firstValue * it.rate).roundToDecimalPlaces()
             }
         }
     }
@@ -72,4 +79,26 @@ class MainViewModel @Inject constructor(
             }
         }
     }
+
+
+
+    private var _firstValue = MutableStateFlow(1.0)
+    private var _secondValue = MutableStateFlow(1.0)
+
+    var firstValue: Double
+        get() = _firstValue.value
+        set(value) {
+            _firstValue.value = value.roundToDecimalPlaces()
+            _secondValue.value = (_firstValue.value * rate.value.rate).roundToDecimalPlaces()
+        }
+
+    var secondValue: Double
+        get() = _secondValue.value
+        set(value) {
+            _secondValue.value = value.roundToDecimalPlaces()
+            _firstValue.value = (_secondValue.value / rate.value.rate).roundToDecimalPlaces()
+        }
+
+    var stateFirstValue = _firstValue as StateFlow<Double>
+    val stateSecondValue = _secondValue as StateFlow<Double>
 }

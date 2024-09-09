@@ -51,6 +51,11 @@ android {
     buildFeatures {
         buildConfig = true
     }
+    kapt {
+        arguments {
+            arg("room.incremental", "true") // Comment this out
+        }
+    }
 }
 
 dependencies {
@@ -87,4 +92,7 @@ dependencies {
     implementation(libs.converter.gson)
 
     implementation(libs.logging.interceptor)
+
+    androidTestImplementation (libs.hilt.android.testing) // Use the latest version
+    kaptAndroidTest (libs.hilt.android.compiler) // Use the latest version
 }

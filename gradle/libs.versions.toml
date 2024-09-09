@@ -3,6 +3,7 @@ agp = "8.7.0-alpha09"
 compiler = "1.1.1"
 converterGson = "2.11.0"
 hiltAndroid = "2.52"
+hiltAndroidTesting = "2.45"
 hiltAndroidVersion = "2.48"
 hiltCompiler = "1.2.0"
 kotlin = "1.9.24"
@@ -30,6 +31,8 @@ androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "
 compiler = { module = "android.arch.persistence.room:compiler", version.ref = "compiler" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
+hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroidTesting" }
+hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hiltAndroidTesting" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hiltAndroid" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }

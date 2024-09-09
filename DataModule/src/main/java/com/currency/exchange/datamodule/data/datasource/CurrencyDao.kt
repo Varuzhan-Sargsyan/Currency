@@ -17,7 +17,4 @@ interface CurrencyDao {
 
     @Query("SELECT * FROM currency")
     fun currenciesFlow() : Flow<List<Currency>>
-
-//    @Query("SELECT * FROM currency WHERE baseCode = :base ORDER BY id DESC LIMIT 1")
-//    fun currencyFlowByBase(base: String) : Flow<Currency?>
 }

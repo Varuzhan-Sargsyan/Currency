@@ -10,15 +10,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.currency.exchange.app.ui.extensions.OnClick
 import com.currency.exchange.app.ui.theme.Paddings.normal
 import com.currency.exchange.app.ui.theme.Sizes.currencyRateViewHeight
+import java.util.Locale
 
 @Composable
 fun RateView(
     modifier: Modifier = Modifier,
-    text: String,
+    value: Double,
     onClick: OnClick
 ) {
     Row (
@@ -29,7 +29,7 @@ fun RateView(
         verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
     ) {
         Spacer(modifier = Modifier.size(normal))
-        Text(text = text)
+        Text(text = String.format(locale = Locale.getDefault(), format = "%.4f", value))
         Spacer(modifier = Modifier.size(normal))
     }
 }
@@ -39,11 +39,11 @@ fun RateView(
 fun NameViewPreview() {
     Column {
         RateView(
-            text = "0.0",
+            value = 0.0,
             onClick = {}
         )
         RateView(
-            text = "555.000555",
+            value = 555.000555,
             onClick = {}
         )
     }

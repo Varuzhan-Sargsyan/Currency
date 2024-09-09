@@ -1,11 +1,9 @@
 package com.currency.exchange.datamodule.domain.repositories
 
 import com.currency.exchange.datamodule.data.datasource.AppDatabase
-import com.currency.exchange.datamodule.data.model.entities.Currency
 import com.currency.exchange.datamodule.data.model.responses.Response
 import com.currency.exchange.datamodule.domain.api.CurrencyApi
 import com.currency.exchange.datamodule.usecase.IRateRepository
-import kotlinx.coroutines.flow.Flow
 
 class RateRepository(
     private val currencyApi: CurrencyApi,
