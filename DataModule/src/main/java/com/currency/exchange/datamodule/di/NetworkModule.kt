@@ -1,8 +1,16 @@
 package com.currency.exchange.datamodule.di
 
 import android.content.Context
+import com.cattlesoft.cattlemax.module.domain.convertor.CurrenciesDeserializer
+import com.cattlesoft.cattlemax.module.domain.convertor.CurrenciesSerializer
+import com.cattlesoft.cattlemax.module.domain.convertor.RateDeserializer
+import com.cattlesoft.cattlemax.module.domain.convertor.RateSerializer
+import com.currency.exchange.datamodule.data.model.entities.Rate
+import com.currency.exchange.datamodule.data.model.responses.Currencies
+import com.currency.exchange.datamodule.domain.api.CurrencyApi
 import com.currency.exchange.datamodule.domain.api.RequestInterceptor
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,7 +24,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
-const val BASE_URL = "https://jsonplaceholder.typicode.com/"
+const val BASE_URL = "https://api.frankfurter.app/"
 
 @InstallIn(SingletonComponent::class)
 @Module
@@ -41,7 +49,7 @@ class NetworkModule {
     fun providesOkHttpClient(
         @ApplicationContext context: Context,
         requestInterceptor: Interceptor
-    ): OkHttpClient {
+    ) : OkHttpClient {
         val cacheSize = (5 * 1024 * 1024).toLong()
         val mCache = Cache(context.cacheDir, cacheSize)
         val client = OkHttpClient.Builder()
@@ -73,17 +81,24 @@ class NetworkModule {
             }
         return client.build()
     }
+    @Provides
+    @Singleton
+    fun providesGson() : Gson =
+        GsonBuilder()
+            .registerTypeAdapter(Currencies::class.java, CurrenciesSerializer())
+            .registerTypeAdapter(Currencies::class.java, CurrenciesDeserializer())
+            .registerTypeAdapter(Rate::class.java, RateSerializer())
+            .registerTypeAdapter(Rate::class.java, RateDeserializer())
+            .create()
 
     @Provides
     @Singleton
-    fun providesGson(): Gson {
-        return Gson()
-    }
+    fun providesGsonConverterFactory(gson: Gson) : GsonConverterFactory =
+        GsonConverterFactory.create(gson)
 
     @Provides
     @Singleton
-    fun providesGsonConverterFactory(): GsonConverterFactory {
-        return GsonConverterFactory.create()
-    }
+    fun provideCurrencyApi(retrofit: Retrofit) : CurrencyApi =
+        retrofit.create(CurrencyApi::class.java)
 
 }

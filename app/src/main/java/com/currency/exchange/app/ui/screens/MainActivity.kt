@@ -5,49 +5,114 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.currency.exchange.app.ui.theme.MyApplicationTheme
+import com.currency.exchange.app.ui.screens.components.CurrencyRateView
+import com.currency.exchange.app.ui.screens.dialog.CurrencySelectionDialog
+import com.currency.exchange.app.ui.screens.dialog.NumberInputDialog
+import com.currency.exchange.app.ui.theme.CurrencyAppTheme
+import com.currency.exchange.app.ui.theme.Paddings.normal
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    val viewModel: MainViewModel by viewModels()
+    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            MyApplicationTheme {
+            CurrencyAppTheme(0) {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
+
+                    var selectFirstCurrency by remember { mutableStateOf(false) }
+                    var selectSecondCurrency by remember { mutableStateOf(false) }
+
+                    var editFirstRate by remember { mutableStateOf(false) }
+                    var editSecondRate by remember { mutableStateOf(false) }
+
+                    val stateFirstCurrency = viewModel.stateFirstCurrency.collectAsState()
+                    val stateSecondCurrency = viewModel.stateSecondCurrency.collectAsState()
+
+                    val stateFirstValue = viewModel.stateFirstValue.collectAsState()
+                    val stateSecondValue = viewModel.stateSecondValue.collectAsState()
+
+                    Box(
                         modifier = Modifier.padding(innerPadding)
-                    )
+                    ) {
+                        Column(
+                            modifier = Modifier.padding(normal)
+                        ) {
+                            CurrencyRateView(
+                                currency = stateFirstCurrency.value,
+                                sum = stateFirstValue.value,
+                                onCurrency = { selectFirstCurrency = true },
+                                onValue = { editFirstRate = true }
+                            )
+                            Spacer(modifier = Modifier.padding(normal))
+                            CurrencyRateView(
+                                currency = stateSecondCurrency.value,
+                                sum = stateSecondValue.value,
+                                onCurrency = { selectSecondCurrency = true },
+                                onValue = { editSecondRate = true }
+                            )
+                        }
+                    }
+
+                    if (editFirstRate)
+                        NumberInputDialog(
+                            value = viewModel.firstValue.toString(),
+                            onValue = {
+                                viewModel.firstValue = it.toDouble()
+                                editFirstRate = false
+                            },
+                            onClose = { editFirstRate = false }
+                        )
+
+                    if (editSecondRate)
+                        NumberInputDialog(
+                            value = viewModel.secondValue.toString(),
+                            onValue = {
+                                viewModel.secondValue = it.toDouble()
+                                editSecondRate = false
+                            },
+                            onClose = { editSecondRate = false }
+                        )
+
+                    if (selectFirstCurrency)
+                        CurrencySelectionDialog(
+                            currency = stateFirstCurrency.value,
+                            currencies = viewModel.currencies.value,
+                            onValue = {
+                                viewModel.stateFirstCurrency.value = it
+                                selectFirstCurrency = false
+                            },
+                            onClose = { selectFirstCurrency = false }
+                        )
+
+                    if (selectSecondCurrency)
+                        CurrencySelectionDialog(
+                            currency = stateSecondCurrency.value,
+                            currencies = viewModel.currencies.value,
+                            onValue = {
+                                viewModel.stateSecondCurrency.value = it
+                                selectSecondCurrency = false
+                            },
+                            onClose = { selectSecondCurrency = false }
+                        )
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    MyApplicationTheme {
-        Greeting("Android")
     }
 }
