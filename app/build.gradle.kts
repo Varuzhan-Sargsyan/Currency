@@ -8,12 +8,12 @@ plugins {
 
 android {
     namespace = "com.currency.exchange.app"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.currency.exchange.app"
         minSdk = 29
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
