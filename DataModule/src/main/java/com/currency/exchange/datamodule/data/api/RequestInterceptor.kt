@@ -1,4 +1,4 @@
-package com.currency.exchange.datamodule.domain.api
+package com.currency.exchange.datamodule.data.api
 
 import okhttp3.Interceptor
 import okhttp3.Response

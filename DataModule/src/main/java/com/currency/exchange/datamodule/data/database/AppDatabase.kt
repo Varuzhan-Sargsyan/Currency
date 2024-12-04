@@ -1,16 +1,16 @@
-package com.currency.exchange.datamodule.data.datasource
+package com.currency.exchange.datamodule.data.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.currency.exchange.datamodule.data.model.entities.Currency
-import com.currency.exchange.datamodule.data.model.entities.Rate
+import com.currency.exchange.datamodule.data.model.entities.CurrencyDTO
+import com.currency.exchange.datamodule.data.model.entities.RateDTO
 
 @Database(
     entities = [
-        Currency::class,
-        Rate::class,
+        CurrencyDTO::class,
+        RateDTO::class,
     ],
     version = 1,
     exportSchema = true

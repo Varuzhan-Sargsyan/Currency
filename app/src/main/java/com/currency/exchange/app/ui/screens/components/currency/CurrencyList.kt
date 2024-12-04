@@ -5,13 +5,13 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.currency.exchange.app.ui.extensions.OnCurrency
-import com.currency.exchange.datamodule.data.datasource.Simulator.currencies
-import com.currency.exchange.datamodule.data.model.entities.Currency
+import com.currency.exchange.datamodule.data.database.Simulator.currencies
+import com.currency.exchange.datamodule.data.model.entities.CurrencyDTO
 
 @Composable
 fun CurrencyList(
-    currency: Currency,
-    currencies: List<Currency>,
+    currencyDTO: CurrencyDTO,
+    currencies: List<CurrencyDTO>,
     onCurrency: OnCurrency
 ) {
     LazyColumn(
@@ -19,8 +19,8 @@ fun CurrencyList(
     ) {
         items(currencies) { item ->
             CurrencyListItem(
-                currency = item,
-                isSelected = currency == item,
+                currencyDTO = item,
+                isSelected = currencyDTO == item,
                 onClick = { onCurrency(item) }
             )
         }
@@ -32,7 +32,7 @@ fun CurrencyList(
 fun CurrencyListPreview() {
     val currencies = currencies()
     CurrencyList(
-        currency = currencies[0],
+        currencyDTO = currencies[0],
         currencies = currencies,
         onCurrency = {}
     )

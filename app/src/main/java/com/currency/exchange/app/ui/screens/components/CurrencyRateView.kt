@@ -10,11 +10,11 @@ import com.currency.exchange.app.ui.extensions.OnClick
 import com.currency.exchange.app.ui.screens.components.currency.BaseCodeView
 import com.currency.exchange.app.ui.screens.components.rate.RateView
 import com.currency.exchange.app.ui.theme.Sizes.verticalDividerHeight
-import com.currency.exchange.datamodule.data.model.entities.Currency
+import com.currency.exchange.datamodule.data.model.entities.CurrencyDTO
 
 @Composable
 fun CurrencyRateView(
-    currency: Currency,
+    currencyDTO: CurrencyDTO,
     sum: Double,
     onCurrency: OnClick,
     onValue: OnClick
@@ -30,7 +30,7 @@ fun CurrencyRateView(
             )
             VerticalDivider(modifier = Modifier.height(verticalDividerHeight))
             BaseCodeView(
-                currency = currency.baseCode,
+                currency = currencyDTO.code,
                 onClick = onCurrency
             )
         }
@@ -41,7 +41,7 @@ fun CurrencyRateView(
 @Composable
 fun BaseCodeExchangeViewPreview() {
     CurrencyRateView(
-        currency = Currency(baseCode = "USD"),
+        currencyDTO = CurrencyDTO(code = "USD"),
         sum = 2002.02,
         onCurrency = {},
         onValue = {}

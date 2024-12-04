@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Text
@@ -18,10 +17,10 @@ import androidx.compose.ui.unit.dp
 import com.currency.exchange.app.ui.extensions.OnClick
 import com.currency.exchange.app.ui.theme.Paddings.normal
 import com.currency.exchange.app.ui.theme.Texts
-import com.currency.exchange.datamodule.data.model.entities.Currency
+import com.currency.exchange.datamodule.data.model.entities.CurrencyDTO
 
 @Composable fun CurrencyListItem(
-    currency: Currency,
+    currencyDTO: CurrencyDTO,
     isSelected: Boolean,
     onClick: OnClick
 ) {
@@ -31,13 +30,13 @@ import com.currency.exchange.datamodule.data.model.entities.Currency
             .clickable { onClick() }
     ) {
         Text(
-            text = currency.baseCode,
+            text = currencyDTO.code,
 //            modifier = Modifier.widthIn(min = 60.dp),
             fontSize = Texts.textFieldLabel,
         )
         Spacer(modifier = Modifier.size(normal))
         Text(
-            text = currency.name,
+            text = currencyDTO.name,
             modifier = Modifier.weight(1f),
             fontSize = Texts.textFieldLabel,
         )

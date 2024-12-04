@@ -1,14 +1,8 @@
-package com.currency.exchange.datamodule.di
+package com.currency.exchange.datamodule.data.di
 
 import android.content.Context
-import com.cattlesoft.cattlemax.module.domain.convertor.CurrenciesDeserializer
-import com.cattlesoft.cattlemax.module.domain.convertor.CurrenciesSerializer
-import com.cattlesoft.cattlemax.module.domain.convertor.RateDeserializer
-import com.cattlesoft.cattlemax.module.domain.convertor.RateSerializer
-import com.currency.exchange.datamodule.data.model.entities.Rate
-import com.currency.exchange.datamodule.data.model.responses.Currencies
-import com.currency.exchange.datamodule.domain.api.CurrencyApi
-import com.currency.exchange.datamodule.domain.api.RequestInterceptor
+import com.currency.exchange.datamodule.data.api.Api
+import com.currency.exchange.datamodule.data.api.RequestInterceptor
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -85,10 +79,10 @@ class NetworkModule {
     @Singleton
     fun providesGson() : Gson =
         GsonBuilder()
-            .registerTypeAdapter(Currencies::class.java, CurrenciesSerializer())
-            .registerTypeAdapter(Currencies::class.java, CurrenciesDeserializer())
-            .registerTypeAdapter(Rate::class.java, RateSerializer())
-            .registerTypeAdapter(Rate::class.java, RateDeserializer())
+//            .registerTypeAdapter(Currencies::class.java, CurrenciesSerializer())
+//            .registerTypeAdapter(Currencies::class.java, CurrenciesDeserializer())
+//            .registerTypeAdapter(Rate::class.java, RateSerializer())
+//            .registerTypeAdapter(Rate::class.java, RateDeserializer())
             .create()
 
     @Provides
@@ -98,7 +92,7 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideCurrencyApi(retrofit: Retrofit) : CurrencyApi =
-        retrofit.create(CurrencyApi::class.java)
+    fun provideCurrencyApi(retrofit: Retrofit) : Api =
+        retrofit.create(Api::class.java)
 
 }

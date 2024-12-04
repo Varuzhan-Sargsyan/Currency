@@ -7,20 +7,20 @@ import com.currency.exchange.app.ui.extensions.OnClick
 import com.currency.exchange.app.ui.extensions.OnCurrency
 import com.currency.exchange.app.ui.screens.components.GroupView
 import com.currency.exchange.app.ui.screens.components.currency.CurrencyList
-import com.currency.exchange.datamodule.data.datasource.Simulator.currencies
-import com.currency.exchange.datamodule.data.model.entities.Currency
+import com.currency.exchange.datamodule.data.database.Simulator.currencies
+import com.currency.exchange.datamodule.data.model.entities.CurrencyDTO
 
 @Composable
 fun CurrencySelectionDialog(
-    currency: Currency,
-    currencies: List<Currency>,
+    currencyDTO: CurrencyDTO,
+    currencies: List<CurrencyDTO>,
     onValue: OnCurrency,
     onClose: OnClick,
 ) {
     Dialog(onDismissRequest = onClose) {
         GroupView {
             CurrencyList(
-                currency = currency,
+                currencyDTO = currencyDTO,
                 currencies = currencies,
                 onCurrency = onValue
             )
@@ -33,7 +33,7 @@ fun CurrencySelectionDialog(
 fun CurrencySelectionDialogPreview() {
     val currencies = currencies()
     CurrencySelectionDialog(
-        currency = currencies[0],
+        currencyDTO = currencies[0],
         currencies = currencies,
         onValue = {},
         onClose = {}

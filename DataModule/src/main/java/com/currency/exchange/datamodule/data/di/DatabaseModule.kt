@@ -1,8 +1,8 @@
-package com.currency.exchange.datamodule.di
+package com.currency.exchange.datamodule.data.di
 
 import android.content.Context
 import androidx.room.Room
-import com.currency.exchange.datamodule.data.datasource.buildAppDatabase
+import com.currency.exchange.datamodule.data.database.buildAppDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

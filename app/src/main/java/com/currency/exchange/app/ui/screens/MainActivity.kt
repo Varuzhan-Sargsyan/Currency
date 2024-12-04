@@ -42,11 +42,11 @@ class MainActivity : ComponentActivity() {
                     var editFirstRate by remember { mutableStateOf(false) }
                     var editSecondRate by remember { mutableStateOf(false) }
 
-                    val stateFirstCurrency = viewModel.stateFirstCurrency.collectAsState()
-                    val stateSecondCurrency = viewModel.stateSecondCurrency.collectAsState()
-
-                    val stateFirstValue = viewModel.stateFirstValue.collectAsState()
-                    val stateSecondValue = viewModel.stateSecondValue.collectAsState()
+//                    val stateFirstCurrency = viewModel.stateFirstCurrency.collectAsState()
+//                    val stateSecondCurrency = viewModel.stateSecondCurrency.collectAsState()
+//
+//                    val stateFirstValue = viewModel.stateFirstValue.collectAsState()
+//                    val stateSecondValue = viewModel.stateSecondValue.collectAsState()
 
                     Box(
                         modifier = Modifier.padding(innerPadding)
@@ -54,63 +54,63 @@ class MainActivity : ComponentActivity() {
                         Column(
                             modifier = Modifier.padding(normal)
                         ) {
-                            CurrencyRateView(
-                                currency = stateFirstCurrency.value,
-                                sum = stateFirstValue.value,
-                                onCurrency = { selectFirstCurrency = true },
-                                onValue = { editFirstRate = true }
-                            )
-                            Spacer(modifier = Modifier.padding(normal))
-                            CurrencyRateView(
-                                currency = stateSecondCurrency.value,
-                                sum = stateSecondValue.value,
-                                onCurrency = { selectSecondCurrency = true },
-                                onValue = { editSecondRate = true }
-                            )
+//                            CurrencyRateView(
+//                                currency = stateFirstCurrency.value,
+//                                sum = stateFirstValue.value,
+//                                onCurrency = { selectFirstCurrency = true },
+//                                onValue = { editFirstRate = true }
+//                            )
+//                            Spacer(modifier = Modifier.padding(normal))
+//                            CurrencyRateView(
+//                                currency = stateSecondCurrency.value,
+//                                sum = stateSecondValue.value,
+//                                onCurrency = { selectSecondCurrency = true },
+//                                onValue = { editSecondRate = true }
+//                            )
                         }
                     }
 
-                    if (editFirstRate)
-                        NumberInputDialog(
-                            value = viewModel.firstValue.toString(),
-                            onValue = {
-                                viewModel.firstValue = it.toDouble()
-                                editFirstRate = false
-                            },
-                            onClose = { editFirstRate = false }
-                        )
+//                    if (editFirstRate)
+//                        NumberInputDialog(
+//                            value = viewModel.firstValue.toString(),
+//                            onValue = {
+//                                viewModel.firstValue = it.toDouble()
+//                                editFirstRate = false
+//                            },
+//                            onClose = { editFirstRate = false }
+//                        )
+//
+//                    if (editSecondRate)
+//                        NumberInputDialog(
+//                            value = viewModel.secondValue.toString(),
+//                            onValue = {
+//                                viewModel.secondValue = it.toDouble()
+//                                editSecondRate = false
+//                            },
+//                            onClose = { editSecondRate = false }
+//                        )
 
-                    if (editSecondRate)
-                        NumberInputDialog(
-                            value = viewModel.secondValue.toString(),
-                            onValue = {
-                                viewModel.secondValue = it.toDouble()
-                                editSecondRate = false
-                            },
-                            onClose = { editSecondRate = false }
-                        )
-
-                    if (selectFirstCurrency)
-                        CurrencySelectionDialog(
-                            currency = stateFirstCurrency.value,
-                            currencies = viewModel.currencies.value,
-                            onValue = {
-                                viewModel.stateFirstCurrency.value = it
-                                selectFirstCurrency = false
-                            },
-                            onClose = { selectFirstCurrency = false }
-                        )
-
-                    if (selectSecondCurrency)
-                        CurrencySelectionDialog(
-                            currency = stateSecondCurrency.value,
-                            currencies = viewModel.currencies.value,
-                            onValue = {
-                                viewModel.stateSecondCurrency.value = it
-                                selectSecondCurrency = false
-                            },
-                            onClose = { selectSecondCurrency = false }
-                        )
+//                    if (selectFirstCurrency)
+//                        CurrencySelectionDialog(
+//                            currency = stateFirstCurrency.value,
+//                            currencies = viewModel.currencies.value,
+//                            onValue = {
+//                                viewModel.stateFirstCurrency.value = it
+//                                selectFirstCurrency = false
+//                            },
+//                            onClose = { selectFirstCurrency = false }
+//                        )
+//
+//                    if (selectSecondCurrency)
+//                        CurrencySelectionDialog(
+//                            currency = stateSecondCurrency.value,
+//                            currencies = viewModel.currencies.value,
+//                            onValue = {
+//                                viewModel.stateSecondCurrency.value = it
+//                                selectSecondCurrency = false
+//                            },
+//                            onClose = { selectSecondCurrency = false }
+//                        )
                 }
             }
         }
