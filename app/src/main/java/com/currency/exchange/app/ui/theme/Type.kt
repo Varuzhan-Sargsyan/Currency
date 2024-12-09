@@ -28,5 +28,21 @@ val Typography = Typography(
         fontSize = 11.sp,
         lineHeight = 16.sp,
         letterSpacing = 0.5.sp
-    )
+    ),
+)
+
+fun Typography.currencyCodeStyle() = TextStyle (
+    fontFamily = FontFamily.Default,
+    fontWeight = FontWeight.SemiBold,
+    fontSize = 18.sp,
+    lineHeight = 22.sp,
+    letterSpacing = 0.7.sp
+)
+
+fun Typography.currencyNameStyle() = TextStyle (
+    fontFamily = FontFamily.Default,
+    fontWeight = FontWeight.Normal,
+    fontSize = 16.sp,
+    lineHeight = 17.sp,
+    letterSpacing = 0.4.sp
 )

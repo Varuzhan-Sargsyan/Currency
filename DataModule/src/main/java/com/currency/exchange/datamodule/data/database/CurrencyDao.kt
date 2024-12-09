@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 interface CurrencyDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insert(currencies: List<CurrencyDTO>)
+    suspend fun insert(currencies: List<CurrencyDTO>)
 
     @Query("SELECT * FROM currencies_dto")
     fun currenciesFlow() : Flow<List<CurrencyDTO>>

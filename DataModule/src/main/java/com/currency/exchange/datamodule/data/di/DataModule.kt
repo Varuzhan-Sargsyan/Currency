@@ -8,6 +8,9 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineName
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
@@ -16,12 +19,19 @@ class DataModule {
 
     @Singleton
     @Provides
+    fun provideDataScope() =
+        CoroutineScope(Dispatchers.IO + CoroutineName("DataModuleScope"))
+
+    @Singleton
+    @Provides
     fun provideDataRepository(
         appDatabase: AppDatabase,
-        api: Api
+        api: Api,
+        coroutineScope: CoroutineScope
     ) = DataRepository(
         appDatabase = appDatabase,
-        api = api
+        api = api,
+        coroutineScope = coroutineScope
     ) as IDataRepository
 
 }
