@@ -30,30 +30,33 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             CurrencyAppTheme(0) {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
 
-                    val navController = rememberNavController()
-                    val navBackStackEntry = navController.currentBackStackEntryAsState().value
-                    val currentRoute = navBackStackEntry?.destination?.route ?: Screen.Dashboard.route
-
-                    LaunchedEffect(key1 = viewModel.screen) {
-                        viewModel.screen.collectLatest { screen ->
-                            if (navController.currentBackStackEntry?.destination?.route != screen.route) {
-                                navController.navigate(screen.route) {
-                                    popUpTo(navController.graph.startDestinationId) { saveState = true }
-                                    launchSingleTop = true
-                                    restoreState = true
-                                }
+                val navController = rememberNavController()
+                LaunchedEffect(key1 = viewModel.screen) {
+                    viewModel.screen.collectLatest { screen ->
+                        if (navController.currentBackStackEntry?.destination?.route != screen.route) {
+                            navController.navigate(screen.route) {
+                                popUpTo(navController.graph.startDestinationId) { saveState = true }
+                                launchSingleTop = true
+                                restoreState = true
                             }
                         }
                     }
+                }
 
-                    Box(modifier = Modifier.fillMaxSize().padding(innerPadding)) {
-                        AppNavHost(navController = navController)
+                val navBackStackEntry = navController.currentBackStackEntryAsState().value
+                val currentRoute = navBackStackEntry?.destination?.route ?: Screen.Dashboard.route
 
+                Scaffold(
+                    modifier = Modifier.fillMaxSize(),
+                    bottomBar = {
                         BottomNavBar(currentRoute = currentRoute) { route ->
                             viewModel.moveTo(route)
                         }
+                    }
+                ) { innerPadding ->
+                    Box(modifier = Modifier.fillMaxSize().padding(innerPadding)) {
+                        AppNavHost(navController = navController)
                     }
                 }
             }

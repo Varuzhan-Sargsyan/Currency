@@ -43,6 +43,6 @@ fun Typography.currencyNameStyle() = TextStyle (
     fontFamily = FontFamily.Default,
     fontWeight = FontWeight.Normal,
     fontSize = 16.sp,
-    lineHeight = 17.sp,
+    lineHeight = 22.sp,
     letterSpacing = 0.4.sp
 )

@@ -8,6 +8,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class CurrencyRepository(private val dataRepository: IDataRepository) : ICurrencyRepository {
-    override fun currenciesFlow(reload: Boolean) : Flow<List<Currency>> =
+    override suspend fun currenciesFlow(reload: Boolean) : Flow<List<Currency>> =
         dataRepository.currenciesFlow(reload).map { it.map { currencyDTO -> currencyDTO.toCurrency() } }
 }

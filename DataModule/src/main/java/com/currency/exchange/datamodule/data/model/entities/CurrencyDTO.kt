@@ -8,9 +8,6 @@ data class CurrencyDTO (
     @PrimaryKey(autoGenerate = false)
     var code: String = "",
     var name: String = "",
-) {
-//    companion object {
-//        fun firstDefaultCurrency() = Currency(baseCode = "USD", name = "United States Dollar")
-//        fun secondDefaultCurrency() = Currency(baseCode = "GBP", name = "British Pound")
-//    }
-}
+)
+
+fun Map<String, String>.toCurrencyDTOList() = map { CurrencyDTO(it.key, it.value) }.toMutableList()

@@ -6,6 +6,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface IDataRepository {
     suspend fun downloadCurrencies() : Response
-    fun currenciesFlow(reload: Boolean) : Flow<List<CurrencyDTO>>
+    suspend fun currenciesFlow(reload: Boolean) : Flow<List<CurrencyDTO>>
     suspend fun downloadRates(currencyDTO: CurrencyDTO)
 }

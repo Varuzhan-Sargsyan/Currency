@@ -6,7 +6,6 @@ import androidx.compose.ui.window.Dialog
 import com.currency.exchange.app.ui.extensions.OnClick
 import com.currency.exchange.app.ui.extensions.OnCurrency
 import com.currency.exchange.app.ui.screens.components.GroupView
-import com.currency.exchange.app.ui.screens.components.currency.CurrencyList
 import com.currency.exchange.datamodule.data.database.Simulator.currencies
 import com.currency.exchange.datamodule.data.model.entities.CurrencyDTO
 
@@ -19,11 +18,11 @@ fun CurrencySelectionDialog(
 ) {
     Dialog(onDismissRequest = onClose) {
         GroupView {
-            CurrencyList(
-                currencyDTO = currencyDTO,
-                currencies = currencies,
-                onCurrency = onValue
-            )
+//            CurrencyList(
+//                currencyDTO = currencyDTO,
+//                currencies = currencies,
+//                onCurrency = onValue
+//            )
         }
     }
 }

@@ -13,7 +13,10 @@ class CurrenciesViewModel @Inject constructor(
     private val currencyRepository: ICurrencyRepository
 ) : ViewModel() {
 
-    fun flowCurrencies(): Flow<List<Currency>> = channelFlow { send(emptyList()) }
-//        currencyRepository.currenciesFlow(true)
+    fun flowCurrencies(): Flow<List<Currency>> = channelFlow {
+        currencyRepository.currenciesFlow(true).collect {
+            send(it)
+        }
+    }
 
 }

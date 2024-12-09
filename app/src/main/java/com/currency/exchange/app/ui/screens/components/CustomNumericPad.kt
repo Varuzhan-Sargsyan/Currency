@@ -1,4 +1,4 @@
-package com.currency.exchange.app.ui.screens.components.rate
+package com.currency.exchange.app.ui.screens.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -134,9 +134,7 @@ fun NumericButton(label: String, onClick: () -> Unit) {
         modifier = Modifier
             .background(MaterialTheme.groupViewBackgroundColor(), shape = RoundedCornerShape(10.dp))
     ) {
-        Box(
-            modifier = Modifier.size(numberPadButtonSize)
-        ) {
+        Box(modifier = Modifier.size(numberPadButtonSize)) {
             Text(
                 modifier = Modifier.align(Alignment.Center),
 
@@ -154,11 +152,7 @@ fun IconButton(id: Int, onBackspace: OnClick) {
         modifier = Modifier
             .background(MaterialTheme.groupViewBackgroundColor(), shape = numberPadButtonShape)
     ) {
-        Box(
-            modifier = Modifier
-                .size(numberPadButtonSize)
-//                .clickable { onBackspace() }
-        ) {
+        Box(modifier = Modifier.size(numberPadButtonSize)) {
             Icon(
                 painterResource(id),
                 modifier = Modifier
@@ -172,26 +166,12 @@ fun IconButton(id: Int, onBackspace: OnClick) {
 
 @Composable
 fun EmptyButton() {
-//    Card (
-//        onClick = { onBackspace() },
-//        modifier = Modifier
-//            .background(Color.Unspecified, shape = RoundedCornerShape(10.dp))
-//    ) {
-        Box(
-            modifier = Modifier
-                .size(numberPadButtonSize)
-                .background(Color.Unspecified, shape = RoundedCornerShape(10.dp))
-//                .clickable { onBackspace() }
-        ) {
-//            Icon(
-//                painterResource(id),
-//                modifier = Modifier
-//                    .size(32.dp)
-//                    .align(Alignment.Center),
-//                contentDescription = "Backspace",
-//            )
-        }
-//    }
+    Box(
+        modifier = Modifier
+            .size(numberPadButtonSize)
+            .background(Color.Unspecified, shape = RoundedCornerShape(10.dp))
+    ) {
+    }
 }
 
 @Composable

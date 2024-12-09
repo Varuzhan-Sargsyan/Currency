@@ -4,12 +4,12 @@ import com.currency.exchange.datamodule.data.api.Api
 import com.currency.exchange.datamodule.data.database.AppDatabase
 import com.currency.exchange.datamodule.data.interfaces.IDataRepository
 import com.currency.exchange.datamodule.data.model.entities.CurrencyDTO
+import com.currency.exchange.datamodule.data.model.entities.toCurrencyDTOList
 import com.currency.exchange.datamodule.data.model.response.Response
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
-import kotlinx.coroutines.launch
 
 class DataRepository(
     private val appDatabase: AppDatabase,
@@ -20,9 +20,11 @@ class DataRepository(
     override suspend fun downloadCurrencies() =
         try {
             val response = api.downloadCurrencies()
-            if (response.isSuccessful)
-                Response.Success(response.body() ?: emptyList<CurrencyDTO>())
-            else
+            if (response.isSuccessful) {
+                val currencies = response.body()?.toCurrencyDTOList() ?: emptyList<CurrencyDTO>()
+                saveCurrencies(currencies)
+                Response.Success(currencies)
+            } else
                 Response.Error(response.message())
         } catch (exception: Exception) {
             Response.Error(exception.message ?: "Unknown error")
@@ -36,21 +38,14 @@ class DataRepository(
         }
     }
 
-    override fun currenciesFlow(reload: Boolean) : Flow<List<CurrencyDTO>> = channelFlow {
-        coroutineScope.launch {
-            if (reload) {
-                val response = coroutineScope.async {
-                    downloadCurrencies()
-                }
-
-                val result = response.await()
-                if (result is Response.Success) {
-                    saveCurrencies(result.data as List<CurrencyDTO>)
-                }
-            }
-            appDatabase.daoCurrency.currenciesFlow().collect {
-                send(it)
-            }
+    override suspend fun currenciesFlow(reload: Boolean) : Flow<List<CurrencyDTO>> = channelFlow {
+        if (reload) {
+            coroutineScope.async {
+                downloadCurrencies()
+            }.await()
+        }
+        appDatabase.daoCurrency.currenciesFlow().collect {
+            send(it)
         }
     }
 
