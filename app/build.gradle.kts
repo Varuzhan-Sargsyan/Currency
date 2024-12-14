@@ -74,6 +74,11 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 
+    // swipe to refresh
+    implementation ("com.google.accompanist:accompanist-swiperefresh:0.30.1")
+    implementation ("androidx.compose.foundation:foundation")
+    implementation ("androidx.compose.material:material")
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

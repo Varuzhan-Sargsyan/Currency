@@ -2,6 +2,7 @@ package com.currency.exchange.datamodule.domain.di
 
 import com.currency.exchange.datamodule.data.di.DataModule
 import com.currency.exchange.datamodule.data.interfaces.IDataRepository
+import com.currency.exchange.datamodule.data.interfaces.ISharedDataRepository
 import com.currency.exchange.datamodule.domain.repositories.CurrencyRepository
 import com.currency.exchange.datamodule.domain.interfaces.ICurrencyRepository
 import dagger.Module
@@ -16,7 +17,12 @@ class DomainModule {
 
     @Singleton
     @Provides
-    fun provideCurrencyRepository(dataRepository: IDataRepository) =
-        CurrencyRepository(dataRepository = dataRepository) as ICurrencyRepository
+    fun provideCurrencyRepository(
+        dataRepository: IDataRepository,
+        sharedDataRepository: ISharedDataRepository
+    ) = CurrencyRepository(
+            dataRepository = dataRepository,
+            sharedDataRepository = sharedDataRepository
+        ) as ICurrencyRepository
 
 }

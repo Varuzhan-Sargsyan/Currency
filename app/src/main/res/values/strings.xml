@@ -10,4 +10,7 @@
     <string name="button_save">Save</string>
     <string name="button_exit">Exit</string>
 
+    <string name="title_dashboard">Exchange</string>
+    <string name="title_currencies">Currencies</string>
+
 </resources>

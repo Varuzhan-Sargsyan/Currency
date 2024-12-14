@@ -12,4 +12,7 @@ object Dimensions {
 
     val iconSize = 28.dp
     val iconPadding = 4.dp
+
+    val clickableIconSize = 32.dp
+    val clickableIconPadding = 8.dp
 }

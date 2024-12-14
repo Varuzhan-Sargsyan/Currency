@@ -158,8 +158,6 @@ fun MaterialTheme.appBarColorSchema() = TopAppBarDefaults.topAppBarColors(
 object Theme {
     const val LIGHT = 0
     const val DARK = 1
-    const val SYSTEM = 2
-//    const val CUSTOM = 3
 
     @Composable
     fun isDarkTheme(theme: Int?) = when(theme) {
@@ -167,45 +165,4 @@ object Theme {
         DARK -> true
         else -> isSystemInDarkTheme()
     }
-
-//    @Composable
-//    fun themeName(value: Int) = when (value) {
-//        LIGHT -> stringResource(R.string.theme_light)
-//        DARK -> stringResource(R.string.theme_dark)
-//        else -> stringResource(R.string.theme_system)
-//    }
-//
-//    @Composable
-//    fun themeValue(name: String) = when (name) {
-//        stringResource(R.string.theme_light) -> LIGHT
-//        stringResource(R.string.theme_dark) -> DARK
-//        else -> SYSTEM
-//    }
-
-    @Composable
-    fun themeMapNameValue() = mapOf(
-        stringResource(R.string.theme_light) to LIGHT,
-        stringResource(R.string.theme_dark) to DARK,
-        stringResource(R.string.theme_system) to SYSTEM,
-//        stringResource(R.string.theme_custom) to CUSTOM
-    )
-
-    @Composable
-    fun themeMapValueName() = mapOf(
-        LIGHT to stringResource(R.string.theme_light),
-        DARK to stringResource(R.string.theme_dark),
-        SYSTEM to stringResource(R.string.theme_system),
-//        CUSTOM to stringResource(R.string.theme_custom)
-    )
-
-//    @Composable
-//    fun themeNames() = listOf(
-//        stringResource(R.string.theme_light),
-//        stringResource(R.string.theme_dark),
-//        stringResource(R.string.theme_system)
-//    )
-//
-//    @Composable
-//    fun themeValues() = listOf(LIGHT, DARK, SYSTEM)
-
 }

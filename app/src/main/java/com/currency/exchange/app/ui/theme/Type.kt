@@ -31,6 +31,14 @@ val Typography = Typography(
     ),
 )
 
+fun Typography.appBarTitleStyle() = TextStyle (
+    fontFamily = FontFamily.Default,
+    fontWeight = FontWeight.SemiBold,
+    fontSize = 20.sp,
+    lineHeight = 22.sp,
+    letterSpacing = 0.5.sp
+)
+
 fun Typography.currencyCodeStyle() = TextStyle (
     fontFamily = FontFamily.Default,
     fontWeight = FontWeight.SemiBold,

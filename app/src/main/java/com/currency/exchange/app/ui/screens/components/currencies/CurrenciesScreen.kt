@@ -1,5 +1,7 @@
 package com.currency.exchange.app.ui.screens.components.currencies
 
+import android.annotation.SuppressLint
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,6 +19,7 @@ import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,36 +34,47 @@ import com.currency.exchange.app.ui.theme.currencyNameStyle
 import com.currency.exchange.app.ui.utils.iconModifier
 import com.currency.exchange.datamodule.domain.model.Currency
 
+@SuppressLint("SuspiciousIndentation")
 @Composable
 fun CurrenciesScreen(viewModel: CurrenciesViewModel = hiltViewModel()) {
-    val exceptions = viewModel.flowExceptions().collectAsState(null)
 
-    val currencies = viewModel.flowCurrencies().collectAsState(emptyList())
-    val stateLazyList = rememberLazyListState()
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        exceptions.value?.let {
-            Text(
-                modifier = Modifier.padding(paddingNormal),
-                text = it.message ?: "Unknown error"
-            )
-            Spacer(modifier = Modifier.size(paddingNormal))
-        }
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(minimalPadding),
-            state = stateLazyList
+    BackHandler(enabled = true) {
+        viewModel.navigateBack()
+    }
+
+    val exceptions = viewModel.flowExceptions().collectAsState(null)
+    val currencies: State<List<Currency>> = viewModel.subscribeToCurrencies().collectAsState(emptyList())
+
+//    SwipeToRefresh(
+//        modifier = Modifier.fillMaxSize(),
+//        onRefresh = { viewModel.reload() }
+//    ) {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
-            items(currencies.value) { currency ->
-                CurrencyItem(currency = currency) {}
-                HorizontalSeparator()
+            exceptions.value?.let {
+                Text(
+                    modifier = Modifier.padding(paddingNormal),
+                    text = it.message ?: "Unknown error"
+                )
+                Spacer(modifier = Modifier.size(paddingNormal))
+            }
+            val stateLazyList = rememberLazyListState()
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(minimalPadding),
+                state = stateLazyList
+            ) {
+                items(currencies.value) { currency ->
+                    CurrencyItem(currency = currency) { viewModel.select(currency) }
+                    HorizontalSeparator()
+                }
             }
         }
-    }
+//    }
 }
 
 @Composable

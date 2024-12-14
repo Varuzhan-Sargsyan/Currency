@@ -3,7 +3,9 @@ package com.currency.exchange.datamodule.data.di
 import com.currency.exchange.datamodule.data.database.AppDatabase
 import com.currency.exchange.datamodule.data.api.Api
 import com.currency.exchange.datamodule.data.interfaces.IDataRepository
+import com.currency.exchange.datamodule.data.interfaces.ISharedDataRepository
 import com.currency.exchange.datamodule.data.repositories.DataRepository
+import com.currency.exchange.datamodule.data.repositories.SharedDataRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -33,5 +35,10 @@ class DataModule {
         api = api,
         coroutineScope = coroutineScope
     ) as IDataRepository
+
+    @Singleton
+    @Provides
+    fun provideSharedDataRepository() =
+        SharedDataRepository() as ISharedDataRepository
 
 }

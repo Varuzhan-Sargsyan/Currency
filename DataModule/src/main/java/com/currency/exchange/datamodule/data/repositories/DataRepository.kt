@@ -1,5 +1,6 @@
 package com.currency.exchange.datamodule.data.repositories
 
+import androidx.core.app.PendingIntentCompat.send
 import com.currency.exchange.datamodule.data.api.Api
 import com.currency.exchange.datamodule.data.database.AppDatabase
 import com.currency.exchange.datamodule.data.interfaces.IDataRepository
@@ -12,6 +13,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.channelFlow
+import kotlinx.coroutines.launch
 
 class DataRepository(
     private val appDatabase: AppDatabase,
@@ -33,6 +35,11 @@ class DataRepository(
                 Response.Error(response.message())
         } catch (exception: Exception) {
             Response.Error(exception.message ?: "Unknown error")
+        }.apply {
+            if (isError())
+                currencyExceptionState.value = Exception(toString())
+            else
+                currencyExceptionState.value = null
         }
 
     private suspend fun saveCurrencies(currencies: List<CurrencyDTO>) {
@@ -43,19 +50,13 @@ class DataRepository(
         }
     }
 
-    override suspend fun currenciesFlow(reload: Boolean) : Flow<List<CurrencyDTO>> = channelFlow {
+    override suspend fun currenciesFlow(reload: Boolean) : Flow<List<CurrencyDTO>> {// = channelFlow {
         if (reload) {
-            coroutineScope.async {
-                val response = downloadCurrencies()
-                if (response.isError())
-                    currencyExceptionState.value = Exception(response.toString())
-                else
-                    currencyExceptionState.value = null
-            }.await()
+            coroutineScope.launch {
+                downloadCurrencies()
+            }
         }
-        appDatabase.daoCurrency.currenciesFlow().collect {
-            send(it)
-        }
+        return appDatabase.daoCurrency.currenciesFlow()
     }
 
     override suspend fun downloadRates(currencyDTO: CurrencyDTO) {
