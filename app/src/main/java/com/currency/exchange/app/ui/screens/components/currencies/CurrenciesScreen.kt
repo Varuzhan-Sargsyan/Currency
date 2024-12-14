@@ -1,10 +1,14 @@
 package com.currency.exchange.app.ui.screens.components.currencies
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -29,15 +33,32 @@ import com.currency.exchange.datamodule.domain.model.Currency
 
 @Composable
 fun CurrenciesScreen(viewModel: CurrenciesViewModel = hiltViewModel()) {
+    val exceptions = viewModel.flowExceptions().collectAsState(null)
+
     val currencies = viewModel.flowCurrencies().collectAsState(emptyList())
     val stateLazyList = rememberLazyListState()
-    LazyColumn(
-        modifier = Modifier.fillMaxSize().padding(minimalPadding),
-        state = stateLazyList
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
-        items(currencies.value) { currency ->
-            CurrencyItem(currency = currency) {}
-            HorizontalSeparator()
+        exceptions.value?.let {
+            Text(
+                modifier = Modifier.padding(paddingNormal),
+                text = it.message ?: "Unknown error"
+            )
+            Spacer(modifier = Modifier.size(paddingNormal))
+        }
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(minimalPadding),
+            state = stateLazyList
+        ) {
+            items(currencies.value) { currency ->
+                CurrencyItem(currency = currency) {}
+                HorizontalSeparator()
+            }
         }
     }
 }
@@ -55,7 +76,9 @@ fun CurrencyItem(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            modifier = Modifier.padding(paddingNormal).weight(0.2f),
+            modifier = Modifier
+                .padding(paddingNormal)
+                .weight(0.2f),
             text = currency.code,
             style = Typography.currencyCodeStyle()
         )

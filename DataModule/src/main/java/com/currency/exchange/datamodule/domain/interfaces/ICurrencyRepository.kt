@@ -5,4 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface ICurrencyRepository {
     suspend fun currenciesFlow(reload: Boolean) : Flow<List<Currency>>
+    suspend fun exceptionsFlow() : Flow<Exception?>
 }

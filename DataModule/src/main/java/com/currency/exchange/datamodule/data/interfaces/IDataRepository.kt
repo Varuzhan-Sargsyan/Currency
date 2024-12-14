@@ -8,4 +8,6 @@ interface IDataRepository {
     suspend fun downloadCurrencies() : Response
     suspend fun currenciesFlow(reload: Boolean) : Flow<List<CurrencyDTO>>
     suspend fun downloadRates(currencyDTO: CurrencyDTO)
+    suspend fun currencyExceptionsFlow() : Flow<Exception?>
+    suspend fun dashboardExceptionsFlow() : Flow<Exception?>
 }

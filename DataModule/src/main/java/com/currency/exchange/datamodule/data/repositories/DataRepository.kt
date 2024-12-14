@@ -9,6 +9,8 @@ import com.currency.exchange.datamodule.data.model.response.Response
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.channelFlow
 
 class DataRepository(
@@ -16,6 +18,9 @@ class DataRepository(
     private val api: Api,
     private val coroutineScope: CoroutineScope
 ) : IDataRepository {
+
+    private val currencyExceptionState = MutableStateFlow<Exception?>(null)
+    private val dashboardExceptionState = MutableStateFlow<Exception?>(null)
 
     override suspend fun downloadCurrencies() =
         try {
@@ -41,7 +46,11 @@ class DataRepository(
     override suspend fun currenciesFlow(reload: Boolean) : Flow<List<CurrencyDTO>> = channelFlow {
         if (reload) {
             coroutineScope.async {
-                downloadCurrencies()
+                val response = downloadCurrencies()
+                if (response.isError())
+                    currencyExceptionState.value = Exception(response.toString())
+                else
+                    currencyExceptionState.value = null
             }.await()
         }
         appDatabase.daoCurrency.currenciesFlow().collect {
@@ -57,5 +66,9 @@ class DataRepository(
 //            }
 //        }
     }
+
+    override suspend fun currencyExceptionsFlow(): Flow<Exception?> = currencyExceptionState.asStateFlow()
+    override suspend fun dashboardExceptionsFlow(): Flow<Exception?> = dashboardExceptionState.asStateFlow()
+
 
 }

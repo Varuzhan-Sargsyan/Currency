@@ -19,4 +19,10 @@ class CurrenciesViewModel @Inject constructor(
         }
     }
 
+    fun flowExceptions(): Flow<Exception?> = channelFlow {
+        currencyRepository.exceptionsFlow().collect {
+            send(it)
+        }
+    }
+
 }
