@@ -2,6 +2,7 @@ package com.currency.exchange.datamodule.domain.di
 
 import com.currency.exchange.datamodule.data.di.DataModule
 import com.currency.exchange.datamodule.data.interfaces.IDataRepository
+import com.currency.exchange.datamodule.data.interfaces.ILocalRepository
 import com.currency.exchange.datamodule.data.interfaces.ISharedDataRepository
 import com.currency.exchange.datamodule.domain.repositories.CurrencyRepository
 import com.currency.exchange.datamodule.domain.interfaces.ICurrencyRepository
@@ -19,10 +20,12 @@ class DomainModule {
     @Provides
     fun provideCurrencyRepository(
         dataRepository: IDataRepository,
-        sharedDataRepository: ISharedDataRepository
+        sharedDataRepository: ISharedDataRepository,
+        localRepository: ILocalRepository
     ) = CurrencyRepository(
             dataRepository = dataRepository,
-            sharedDataRepository = sharedDataRepository
+            sharedDataRepository = sharedDataRepository,
+            localRepository = localRepository
         ) as ICurrencyRepository
 
 }

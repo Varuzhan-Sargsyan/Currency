@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import com.currency.exchange.app.R
 import com.currency.exchange.app.ui.utils.iconModifier
+import com.currency.exchange.datamodule.domain.model.Screen
 
 @Composable
 fun BottomNavBar(currentRoute: String, onItemSelected: (Screen) -> Unit) {

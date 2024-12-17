@@ -16,8 +16,8 @@ import androidx.navigation.compose.rememberNavController
 import com.currency.exchange.app.ui.screens.components.topbar.CurrenciesBar
 import com.currency.exchange.app.ui.screens.components.topbar.DashboardBar
 import com.currency.exchange.app.ui.screens.navigation.AppNavHost
-import com.currency.exchange.app.ui.screens.navigation.Screen
-import com.currency.exchange.app.ui.screens.navigation.routeToScreen
+import com.currency.exchange.datamodule.domain.model.Screen
+import com.currency.exchange.datamodule.domain.model.routeToScreen
 import com.currency.exchange.app.ui.theme.CurrencyAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest

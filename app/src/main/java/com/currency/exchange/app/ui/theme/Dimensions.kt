@@ -8,6 +8,7 @@ object Dimensions {
     val paddingSmall = 4.dp
     val paddingMedium = 8.dp
     val paddingNormal = 12.dp
+    val paddingBig = 16.dp
     val paddingLarge = 32.dp
 
     val iconSize = 28.dp

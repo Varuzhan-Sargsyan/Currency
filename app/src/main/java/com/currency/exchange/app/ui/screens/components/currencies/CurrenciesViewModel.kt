@@ -3,10 +3,10 @@ package com.currency.exchange.app.ui.screens.components.currencies
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.currency.exchange.app.ui.extensions.runInThread
-import com.currency.exchange.app.ui.utils.isBuyCurrencyScreen
-import com.currency.exchange.app.ui.utils.isSellCurrencyScreen
-import com.currency.exchange.app.ui.utils.navigateBack
 import com.currency.exchange.datamodule.data.interfaces.ISharedDataRepository
+import com.currency.exchange.datamodule.data.repositories.isBuyCurrencyScreen
+import com.currency.exchange.datamodule.data.repositories.isSellCurrencyScreen
+import com.currency.exchange.datamodule.data.repositories.navigateBack
 import com.currency.exchange.datamodule.domain.interfaces.ICurrencyRepository
 import com.currency.exchange.datamodule.domain.model.Currency
 import dagger.hilt.android.lifecycle.HiltViewModel

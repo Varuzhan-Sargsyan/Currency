@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.currency.exchange.app.ui.screens.components.currencies.CurrenciesScreen
 import com.currency.exchange.app.ui.screens.components.dashboard.DashboardScreen
+import com.currency.exchange.datamodule.domain.model.Screen
 
 @Composable
 fun AppNavHost(navController: NavHostController) {

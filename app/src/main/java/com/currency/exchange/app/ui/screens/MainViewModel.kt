@@ -1,9 +1,9 @@
 package com.currency.exchange.app.ui.screens
 
 import androidx.lifecycle.ViewModel
-import com.currency.exchange.app.ui.utils.navigateBack
-import com.currency.exchange.app.ui.utils.screenFlow
 import com.currency.exchange.datamodule.data.interfaces.ISharedDataRepository
+import com.currency.exchange.datamodule.data.repositories.navigateBack
+import com.currency.exchange.datamodule.data.repositories.screenFlow
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

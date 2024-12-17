@@ -2,6 +2,7 @@ package com.currency.exchange.app.ui.theme
 
 import android.app.Activity
 import android.os.Build
+import android.view.WindowInsetsController
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -16,9 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
-import androidx.compose.ui.res.stringResource
 import androidx.core.view.WindowCompat
-import com.currency.exchange.app.R
 import com.currency.exchange.app.ui.extensions.toColor
 
 private fun darkColorSchemeW(primary: Color = PrimaryDark) = darkColorScheme(
@@ -67,8 +66,22 @@ fun CurrencyAppTheme(
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = colorScheme.primary.toArgb()
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
+            // Set status bar color with proper handling for API levels
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                // For API 30 and above
+                val insetsController = window.insetsController
+                window.statusBarColor = colorScheme.primary.toArgb()
+                insetsController?.setSystemBarsAppearance(
+                    if (darkTheme) 0 else WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,
+                    WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
+                )
+            } else {
+                // For API below 30
+                @Suppress("DEPRECATION")
+                window.statusBarColor = colorScheme.primary.toArgb()
+                @Suppress("DEPRECATION")
+                WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
+            }
         }
     }
 
@@ -79,79 +92,79 @@ fun CurrencyAppTheme(
     )
 }
 
-@Composable
-fun MaterialTheme.backgroundColor() =
-    if (Theme.isDarkTheme(theme = theme)) SurfaceDark else SurfaceLight
+//@Composable
+//fun MaterialTheme.backgroundColor() =
+//    if (Theme.isDarkTheme(theme = theme)) SurfaceDark else SurfaceLight
 
 @Composable
 fun MaterialTheme.groupViewBackgroundColor() =
     if (Theme.isDarkTheme(theme = theme)) GroupViewBackgroundDark else GroupViewBackgroundLight
 
-@Composable
-fun MaterialTheme.sessionBackground(selected: Boolean) =
-    if (selected) iconDefaultColor() else groupViewBackgroundColor()
+//@Composable
+//fun MaterialTheme.sessionBackground(selected: Boolean) =
+//    if (selected) iconDefaultColor() else groupViewBackgroundColor()
 
 @Composable
 fun MaterialTheme.groupViewTextColor() =
     if (!Theme.isDarkTheme(theme = theme)) GroupViewBackgroundDark else GroupViewBackgroundLight
 
-@Composable
-fun MaterialTheme.groupViewTextInverseColor() =
-    if (Theme.isDarkTheme(theme = theme)) GroupViewBackgroundDark else GroupViewBackgroundLight
+//@Composable
+//fun MaterialTheme.groupViewTextInverseColor() =
+//    if (Theme.isDarkTheme(theme = theme)) GroupViewBackgroundDark else GroupViewBackgroundLight
 
 @Composable
 fun MaterialTheme.iconDefaultColor() =
     if (Theme.isDarkTheme(theme = theme)) IconColorDark else IconColorLight
 
-@Composable
-fun MaterialTheme.iconActionColor(enabled: Boolean) : Color =
-    if (enabled)
-        colorScheme.primary
-    else
-        colorScheme.outlineVariant
+//@Composable
+//fun MaterialTheme.iconActionColor(enabled: Boolean) : Color =
+//    if (enabled)
+//        colorScheme.primary
+//    else
+//        colorScheme.outlineVariant
 
 @Composable
 fun MaterialTheme.borderDefaultColor() =
     if (!Theme.isDarkTheme(theme = theme)) IconColorDark else IconColorLight
 
-fun MaterialTheme.statusBarColor(status: Boolean) =
-    if (status) StatusBarActive else StatusBarInactive
-
-fun MaterialTheme.statusBarTextColor() = Color.White
-
-@Composable
-fun MaterialTheme.weightTextColor(isFinal: Boolean) =
-    if (isFinal) colorScheme.primary else WeightTextColor
-
-@Composable
-fun MaterialTheme.activityItemColor(): Color {
-    return groupViewBackgroundColor()
-}
-
-@Composable
-fun MaterialTheme.activityTextColor(): Color {
-    return colorScheme.secondary
-}
-
-@Composable
-fun MaterialTheme.linkColor(): Color {
-    return colorScheme.secondary
-}
-
-@Composable
-fun MaterialTheme.buttonColor(): Color {
-    return colorScheme.secondary
-}
-
-@Composable
-fun MaterialTheme.bluetoothColor(): Color {
-    return BluetoothColor
-}
+//fun MaterialTheme.statusBarColor(status: Boolean) =
+//    if (status) StatusBarActive else StatusBarInactive
+//
+//fun MaterialTheme.statusBarTextColor() = Color.White
+//
+//@Composable
+//fun MaterialTheme.weightTextColor(isFinal: Boolean) =
+//    if (isFinal) colorScheme.primary else WeightTextColor
+//
+//@Composable
+//fun MaterialTheme.activityItemColor(): Color {
+//    return groupViewBackgroundColor()
+//}
+//
+//@Composable
+//fun MaterialTheme.activityTextColor(): Color {
+//    return colorScheme.secondary
+//}
+//
+//@Composable
+//fun MaterialTheme.linkColor(): Color {
+//    return colorScheme.secondary
+//}
+//
+//@Composable
+//fun MaterialTheme.buttonColor(): Color {
+//    return colorScheme.secondary
+//}
+//
+//@Composable
+//fun MaterialTheme.bluetoothColor(): Color {
+//    return BluetoothColor
+//}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MaterialTheme.appBarColorSchema() = TopAppBarDefaults.topAppBarColors(
-    containerColor = MaterialTheme.colorScheme.surface
+    containerColor = colorScheme.surface
 )
 
 

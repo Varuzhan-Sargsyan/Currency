@@ -1,4 +1,4 @@
-package com.currency.exchange.app.ui.screens.navigation
+package com.currency.exchange.datamodule.domain.model
 
 sealed class Screen(
     val route: String,
