@@ -42,9 +42,9 @@ fun Typography.appBarTitleStyle() = TextStyle (
 fun Typography.currencyCodeStyle() = TextStyle (
     fontFamily = FontFamily.Default,
     fontWeight = FontWeight.SemiBold,
-    fontSize = 18.sp,
-    lineHeight = 22.sp,
-    letterSpacing = 0.7.sp
+    fontSize = 16.sp,
+    lineHeight = 20.sp,
+    letterSpacing = 0.6.sp
 )
 
 fun Typography.currencyNameStyle() = TextStyle (

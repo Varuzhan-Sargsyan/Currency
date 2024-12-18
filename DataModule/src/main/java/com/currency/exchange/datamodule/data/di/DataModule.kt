@@ -1,8 +1,9 @@
 package com.currency.exchange.datamodule.data.di
 
 import android.content.Context
+import com.currency.exchange.datamodule.data.api.CountryApi
 import com.currency.exchange.datamodule.data.database.AppDatabase
-import com.currency.exchange.datamodule.data.api.Api
+import com.currency.exchange.datamodule.data.api.CurrencyApi
 import com.currency.exchange.datamodule.data.interfaces.IDataRepository
 import com.currency.exchange.datamodule.data.interfaces.ILocalRepository
 import com.currency.exchange.datamodule.data.interfaces.ISharedDataRepository
@@ -31,14 +32,14 @@ class DataModule {
     @Singleton
     @Provides
     fun provideDataRepository(
-        @ApplicationContext context: Context,
         appDatabase: AppDatabase,
-        api: Api,
+        currencyApi: CurrencyApi,
+        countryApi: CountryApi,
         coroutineScope: CoroutineScope
     ) = DataRepository(
-        context = context,
         appDatabase = appDatabase,
-        api = api,
+        currencyApi = currencyApi,
+        countryApi = countryApi,
         coroutineScope = coroutineScope
     ) as IDataRepository
 

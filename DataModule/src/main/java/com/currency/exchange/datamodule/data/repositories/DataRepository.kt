@@ -1,39 +1,33 @@
 package com.currency.exchange.datamodule.data.repositories
 
-import android.content.Context
-import com.currency.exchange.datamodule.R
-import com.currency.exchange.datamodule.data.api.Api
+import com.currency.exchange.datamodule.data.api.CountryApi
+import com.currency.exchange.datamodule.data.api.CurrencyApi
 import com.currency.exchange.datamodule.data.database.AppDatabase
 import com.currency.exchange.datamodule.data.interfaces.IDataRepository
 import com.currency.exchange.datamodule.data.model.entities.CurrencyDTO
-import com.currency.exchange.datamodule.data.model.entities.CurrencyLocalInfo
+import com.currency.exchange.datamodule.data.model.entities.CountryDTO
 import com.currency.exchange.datamodule.data.model.entities.toCurrencyDTOList
 import com.currency.exchange.datamodule.data.model.response.Response
-import com.currency.exchange.datamodule.data.utils.JsonHelper
-import com.currency.exchange.datamodule.domain.model.Screen
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class DataRepository(
-    private val context: Context,
     private val appDatabase: AppDatabase,
-    private val api: Api,
+    private val currencyApi: CurrencyApi,
+    private val countryApi: CountryApi,
     private val coroutineScope: CoroutineScope
 ) : IDataRepository {
 
     private val currencyExceptionState = MutableStateFlow<Exception?>(null)
     private val dashboardExceptionState = MutableStateFlow<Exception?>(null)
+    private val currenciesLocalInfo = mutableListOf<CountryDTO>()
 
-    override suspend fun downloadCurrencies() =
+    override suspend fun downloadCurrencyInformation() =
         try {
-            val response = api.downloadCurrencies()
+            val response = currencyApi.downloadCurrencies()
             if (response.isSuccessful) {
                 val currencies = response.body()?.toCurrencyDTOList() ?: emptyList<CurrencyDTO>()
                 saveCurrencies(currencies)
@@ -49,15 +43,35 @@ class DataRepository(
                 currencyExceptionState.value = null
         }
 
-    override suspend fun currencyFlags() : Response {
-        // Read the JSON file from res/raw
-        val inputStream = context.resources.openRawResource(R.raw.currencies_with_flags)
-        val json = inputStream.bufferedReader().use { it.readText() }
+    override suspend fun downloadCountryInformation() =
+        try {
+            val response = countryApi.downloadCountries()
+            if (response.isSuccessful) {
+                val countries: List<CountryDTO> = response.body() ?: emptyList<CountryDTO>()
+                saveCountries(countries)
+                Response.Success(countries)
+            } else
+                Response.Error(response.message())
+        } catch (exception: Exception) {
+            Response.Error(exception.message ?: "Unknown error")
+        }.apply {
+            if (isError())
+                currencyExceptionState.value = Exception(toString())
+            else
+                currencyExceptionState.value = null
+        }
 
-        // Parse JSON to a list of CurrencyInfo objects
-        val currencies = JsonHelper.fromJsonList(json, CurrencyLocalInfo::class.java)
-        return Response.Success(currencies)
-    }
+//    override suspend fun downloadCurrencyFlags() : Response {
+//        // Read the JSON file from res/raw
+//        val inputStream = context.resources.openRawResource(R.raw.currencies_with_flags)
+//        val json = inputStream.bufferedReader().use { it.readText() }
+//
+//        // Parse JSON to a list of CurrencyInfo objects
+//        val currencies = JsonHelper.fromJsonList(json, CountryDTO::class.java)
+//        if (currenciesLocalInfo.isNotEmpty())
+//            currenciesLocalInfo.addAll(currencies)
+//        return Response.Success(currencies)
+//    }
 
     private suspend fun saveCurrencies(currencies: List<CurrencyDTO>) {
         try {
@@ -67,13 +81,30 @@ class DataRepository(
         }
     }
 
-    override suspend fun currenciesFlow(reload: Boolean) : Flow<List<CurrencyDTO>> {// = channelFlow {
+    private suspend fun saveCountries(countries: List<CountryDTO>) {
+        try {
+            appDatabase.daoCountry.insert(countries)
+        } catch (exception: Exception) {
+            Response.Error(exception.message ?: "Unknown error")
+        }
+    }
+
+    override suspend fun currenciesDTOFlow(reload: Boolean) : Flow<List<CurrencyDTO>> {
         if (reload) {
-            coroutineScope.async {
-                downloadCurrencies()
-            }.await()
+            coroutineScope.launch {
+                downloadCurrencyInformation()
+            }
         }
         return appDatabase.daoCurrency.currenciesFlow()
+    }
+
+    override suspend fun countriesDTOFlow(reload: Boolean) : Flow<List<CountryDTO>> {
+        if (reload) {
+            coroutineScope.launch {
+                downloadCountryInformation()
+            }
+        }
+        return appDatabase.daoCountry.countriesFlow()
     }
 
     override suspend fun downloadRates(currencyDTO: CurrencyDTO) {
@@ -88,5 +119,6 @@ class DataRepository(
     override suspend fun currencyExceptionsFlow(): Flow<Exception?> = currencyExceptionState.asStateFlow()
     override suspend fun dashboardExceptionsFlow(): Flow<Exception?> = dashboardExceptionState.asStateFlow()
 
-
+    override fun flags(): List<CountryDTO> = currenciesLocalInfo
+    override fun currencyLocalInfo(code: String) : CountryDTO? = null//flags().firstOrNull { it.code == code }
 }

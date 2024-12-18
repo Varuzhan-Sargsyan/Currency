@@ -1,7 +1,8 @@
 package com.currency.exchange.datamodule.data.di
 
 import android.content.Context
-import com.currency.exchange.datamodule.data.api.Api
+import com.currency.exchange.datamodule.data.api.CountryApi
+import com.currency.exchange.datamodule.data.api.CurrencyApi
 import com.currency.exchange.datamodule.data.api.RequestInterceptor
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -18,7 +19,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
-const val BASE_URL = "https://api.frankfurter.app/"
+const val CURRENCY_URL = "https://api.frankfurter.app/"
+const val COUNTRY_URL = "https://restcountries.com/"
 
 @InstallIn(SingletonComponent::class)
 @Module
@@ -27,20 +29,34 @@ class NetworkModule {
     @Provides
     fun provideRequestInterceptor() = RequestInterceptor() as Interceptor
 
+    @CurrencyRetrofit
     @Provides
     @Singleton
-    fun providesRetrofit(
+    fun provideCurrencyRetrofit(
         gsonConverterFactory: GsonConverterFactory,
-        okHttpClient: OkHttpClient
+        @CurrencyOkHttp okHttpClient: OkHttpClient
     ) : Retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(CURRENCY_URL)
             .addConverterFactory(gsonConverterFactory)
             .client(okHttpClient)
             .build()
 
+    @CountryRetrofit
     @Provides
     @Singleton
-    fun providesOkHttpClient(
+    fun provideCountryRetrofit(
+        gsonConverterFactory: GsonConverterFactory,
+        @CountryOkHttp okHttpClient: OkHttpClient
+    ) : Retrofit = Retrofit.Builder()
+        .baseUrl(COUNTRY_URL)
+        .addConverterFactory(gsonConverterFactory)
+        .client(okHttpClient)
+        .build()
+
+    @CurrencyOkHttp
+    @Provides
+    @Singleton
+    fun providesCurrencyOkHttpClient(
         @ApplicationContext context: Context,
         requestInterceptor: Interceptor
     ) : OkHttpClient {
@@ -54,19 +70,8 @@ class NetworkModule {
             .addNetworkInterceptor(requestInterceptor)
             .addInterceptor { chain ->
                 var request = chain.request()
-                /* If there is Internet, get the cache that was stored 5 seconds ago.
-                 * If the cache is older than 5 seconds, then discard it,
-                 * and indicate an error in fetching the response.
-                 * The 'max-age' attribute is responsible for this behavior.
-                 */
                 request = if (true) request.newBuilder() // make default to true till i figure out how to inject network status
                     .header("Cache-Control", "public, max-age=" + 5).build()
-                /*If there is no Internet, get the cache that was stored 7 days ago.
-                 * If the cache is older than 7 days, then discard it,
-                 * and indicate an error in fetching the response.
-                 * The 'max-stale' attribute is responsible for this behavior.
-                 * The 'only-if-cached' attribute indicates to not retrieve new data; fetch the cache only instead.
-                 */
                 else request.newBuilder().header(
                     "Cache-Control",
                     "public, only-if-cached, max-stale=" + 60 * 60 * 24 * 7
@@ -75,15 +80,38 @@ class NetworkModule {
             }
         return client.build()
     }
+
+    @CountryOkHttp
     @Provides
     @Singleton
-    fun providesGson() : Gson =
-        GsonBuilder()
-//            .registerTypeAdapter(Currencies::class.java, CurrenciesSerializer())
-//            .registerTypeAdapter(Currencies::class.java, CurrenciesDeserializer())
-//            .registerTypeAdapter(Rate::class.java, RateSerializer())
-//            .registerTypeAdapter(Rate::class.java, RateDeserializer())
-            .create()
+    fun providesCountryOkHttpClient(
+        @ApplicationContext context: Context,
+        requestInterceptor: Interceptor
+    ) : OkHttpClient {
+        val cacheSize = (5 * 1024 * 1024).toLong()
+        val mCache = Cache(context.cacheDir, cacheSize)
+        val client = OkHttpClient.Builder()
+            .cache(mCache) // make your app offline-friendly without a database!
+            .connectTimeout(60, TimeUnit.SECONDS)
+            .writeTimeout(60, TimeUnit.SECONDS)
+            .readTimeout(60, TimeUnit.SECONDS)
+            .addNetworkInterceptor(requestInterceptor)
+            .addInterceptor { chain ->
+                var request = chain.request()
+                request = if (true) request.newBuilder() // make default to true till i figure out how to inject network status
+                    .header("Cache-Control", "public, max-age=" + 5).build()
+                else request.newBuilder().header(
+                    "Cache-Control",
+                    "public, only-if-cached, max-stale=" + 60 * 60 * 24 * 7
+                ).build()
+                chain.proceed(request)
+            }
+        return client.build()
+    }
+
+    @Provides
+    @Singleton
+    fun providesGson() : Gson = GsonBuilder().create()
 
     @Provides
     @Singleton
@@ -92,7 +120,12 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideCurrencyApi(retrofit: Retrofit) : Api =
-        retrofit.create(Api::class.java)
+    fun provideCurrencyApi(@CurrencyRetrofit retrofit: Retrofit) : CurrencyApi =
+        retrofit.create(CurrencyApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideCountryApi(@CountryRetrofit retrofit: Retrofit) : CountryApi =
+        retrofit.create(CountryApi::class.java)
 
 }

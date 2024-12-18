@@ -7,14 +7,15 @@ import com.currency.exchange.datamodule.data.interfaces.buyCurrency
 import com.currency.exchange.datamodule.data.interfaces.sellCurrency
 import com.currency.exchange.datamodule.data.interfaces.subscribeToBuyCurrency
 import com.currency.exchange.datamodule.data.interfaces.subscribeToSellCurrency
+import com.currency.exchange.datamodule.data.model.entities.CountryDTO
+import com.currency.exchange.datamodule.data.model.entities.CurrencyDTO
 import com.currency.exchange.datamodule.data.repositories.buyCurrencyScreen
 import com.currency.exchange.datamodule.data.repositories.sellCurrencyScreen
 import com.currency.exchange.datamodule.domain.interfaces.ICurrencyRepository
 import com.currency.exchange.datamodule.domain.model.Currency
-import com.currency.exchange.datamodule.domain.model.toCurrency
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.combine
 
 class CurrencyRepository(
     private val dataRepository: IDataRepository,
@@ -23,11 +24,20 @@ class CurrencyRepository(
 ) : ICurrencyRepository {
 
     override suspend fun reload() {
-        dataRepository.downloadCurrencies()
+        dataRepository.downloadCurrencyInformation()
+        dataRepository.downloadCountryInformation()
     }
 
     override suspend fun currenciesFlow(reload: Boolean) =
-        dataRepository.currenciesFlow(reload).map { it.map { currencyDTO -> currencyDTO.toCurrency() } }
+        combine<List<CurrencyDTO>, List<CountryDTO>, List<Currency>> (
+            dataRepository.currenciesDTOFlow(reload),
+            dataRepository.countriesDTOFlow(reload)
+        ) { currencies, countries ->
+            if (currencies.isEmpty() || countries.isEmpty())
+                emptyList<Currency>()
+            else
+                currencies.map { currencyDTO -> Currency(currencyDTO, countries.firstOrNull { it.currencies.keys.contains(currencyDTO.code) }) }
+        }
 
     override suspend fun exceptionsFlow(): Flow<Exception?> =
         dataRepository.currencyExceptionsFlow()

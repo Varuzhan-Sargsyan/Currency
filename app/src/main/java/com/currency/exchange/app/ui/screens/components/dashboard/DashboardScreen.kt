@@ -3,7 +3,6 @@ package com.currency.exchange.app.ui.screens.components.dashboard
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -16,6 +15,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
@@ -27,7 +29,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -38,19 +42,31 @@ import com.currency.exchange.app.R
 import com.currency.exchange.app.ui.extensions.OnFloat
 import com.currency.exchange.app.ui.screens.components.EditText
 import com.currency.exchange.app.ui.screens.components.GroupView
+import com.currency.exchange.app.ui.screens.components.NetworkImage
 import com.currency.exchange.app.ui.screens.components.VerticalSeparator
 import com.currency.exchange.app.ui.theme.CurrencyAppTheme
 import com.currency.exchange.app.ui.theme.Dimensions.paddingBig
 import com.currency.exchange.app.ui.theme.Dimensions.paddingMedium
 import com.currency.exchange.app.ui.theme.Dimensions.paddingNormal
-import com.currency.exchange.app.ui.theme.Dimensions.paddingTiny
+import com.currency.exchange.app.ui.theme.Dimensions.smallIconSize
 import com.currency.exchange.app.ui.theme.Elevations.defaultElevation
 import com.currency.exchange.app.ui.theme.Typography
+import com.currency.exchange.app.ui.utils.iconModifier
 import com.currency.exchange.datamodule.domain.model.Currency
+import com.currency.exchange.datamodule.domain.model.Currency.Companion.DEFAULT_COUNTRY_CODE
+import com.currency.exchange.datamodule.domain.model.Currency.Companion.DEFAULT_COUNTRY_NAME
+import com.currency.exchange.datamodule.domain.model.Currency.Companion.DEFAULT_COUNTRY_FLAG
+import com.currency.exchange.datamodule.domain.model.Currency.Companion.testCurrencies
+import kotlin.math.pow
 
 @Composable
 private fun emptyCurrency() =
-    Currency(stringResource(R.string.empty_currency_code), stringResource(R.string.empty_currency_name))
+    Currency(
+        code = stringResource(R.string.empty_currency_code),
+        name = stringResource(R.string.empty_currency_name),
+        countryName = DEFAULT_COUNTRY_NAME,
+        countryCode = DEFAULT_COUNTRY_CODE,
+        flag = DEFAULT_COUNTRY_FLAG)
 
 @Composable
 fun DashboardScreen(viewModel: DashboardViewModel = hiltViewModel()) {
@@ -101,7 +117,7 @@ fun CurrencyView(
             .padding(0.dp)
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth().height(60.dp),
+            modifier = Modifier.fillMaxWidth().height(50.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             EditText(
@@ -113,7 +129,7 @@ fun CurrencyView(
                     .weight(1f)
                     .fillMaxWidth()
                     .background(Color.Transparent)
-                    .padding(paddingMedium),
+                    .padding(start = paddingBig),
                 keyboardOptions = KeyboardOptions(
                     imeAction = ImeAction.Done,
                     keyboardType = KeyboardType.Number
@@ -134,26 +150,25 @@ fun CurrencyView(
             Row(
                 modifier = Modifier
                     .clickable { onCurrency() }
-                    .padding(horizontal = paddingBig)
+                    .padding(horizontal = paddingMedium)
                     .fillMaxHeight()
-                    .width(80.dp),
-                horizontalArrangement = Arrangement.Center,
+                    .width(100.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(
-                    modifier = Modifier.size(20.dp),
-                    imageVector = Icons.Default.KeyboardArrowDown,
+                NetworkImage(
+                    modifier = Modifier
+                        .iconModifier(iconSize = smallIconSize, iconPadding = 0.dp).clip(CircleShape),
+                    contentScale = ContentScale.Crop,
+                    imageUrl = currency.imageFlagUrl(),
                     contentDescription = "Arrow down button"
                 )
-                Spacer(modifier = Modifier.size(paddingTiny))
                 Text(
-                    modifier = Modifier
-                        .padding(paddingNormal),
                     text = currency.code,
                     style = Typography.currencyCodeStyle()
                 )
                 Icon(
-                    modifier = Modifier.size(20.dp),
+                    modifier = Modifier.iconModifier(iconPadding = 0.dp),
                     imageVector = Icons.Default.KeyboardArrowDown,
                     contentDescription = "Arrow down button"
                 )
@@ -165,31 +180,19 @@ fun CurrencyView(
 @Preview
 @Composable
 fun CurrencyViewPreview() {
+    val list = testCurrencies + emptyCurrency()
     CurrencyAppTheme(0) {
-        Column(modifier = Modifier.fillMaxWidth().padding(24.dp)) {
-            CurrencyView(
-                title = stringResource(R.string.title_you_pay),
-                currency = Currency("USD", "US Dollar"),
-                sum = 10.01f,
-                onSum = {},
-                onCurrency = {}
-            )
-            Spacer(modifier = Modifier.size(paddingBig))
-            CurrencyView(
-                title = stringResource(R.string.title_you_receive),
-                currency = Currency("AMD", "US Dollar"),
-                sum = 1000.0001f,
-                onSum = {},
-                onCurrency = {}
-            )
-            Spacer(modifier = Modifier.size(paddingBig))
-            CurrencyView(
-                title = stringResource(R.string.title_you_receive),
-                currency = emptyCurrency(),
-                sum = 10f,
-                onSum = {},
-                onCurrency = {}
-            )
+        LazyColumn (modifier = Modifier.fillMaxWidth().padding(24.dp)) {
+            itemsIndexed(list) { index, currency ->
+                CurrencyView(
+                    title = stringResource(R.string.title_you_pay),
+                    currency = currency,
+                    sum = 10f.pow(index) + 10f.pow(-index - 1),
+                    onSum = {},
+                    onCurrency = {}
+                )
+                Spacer(modifier = Modifier.size(paddingBig))
+            }
         }
     }
 }
