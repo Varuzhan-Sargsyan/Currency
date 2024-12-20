@@ -6,11 +6,13 @@ sealed class Screen(
 ) {
     object Dashboard : Screen("dashboard", "Dashboard")
     object Currencies : Screen("currencies", "Currencies")
+    object Settings : Screen("settings", "Settings")
 
     fun backRoute() =
         when (this) {
             is Dashboard -> null
             is Currencies -> Dashboard
+            is Settings -> Dashboard
         }
 }
 
