@@ -35,11 +35,11 @@ import com.currency.exchange.app.R
 import com.currency.exchange.app.ui.extensions.OnClick
 import com.currency.exchange.app.ui.extensions.OnString
 import com.currency.exchange.app.ui.extensions.addLabel
-import com.currency.exchange.app.ui.theme.Paddings.big
-import com.currency.exchange.app.ui.theme.Paddings.normal
+import com.currency.exchange.app.ui.theme.Dimensions.numberPadButtonSize
+import com.currency.exchange.app.ui.theme.Dimensions.numberPadTextSize
+import com.currency.exchange.app.ui.theme.Dimensions.paddingBig
+import com.currency.exchange.app.ui.theme.Dimensions.paddingNormal
 import com.currency.exchange.app.ui.theme.Shapes.numberPadButtonShape
-import com.currency.exchange.app.ui.theme.Sizes.numberPadButtonSize
-import com.currency.exchange.app.ui.theme.Texts.numberPadTextSize
 import com.currency.exchange.app.ui.theme.groupViewBackgroundColor
 
 @Composable
@@ -52,7 +52,7 @@ fun CustomNumericPad(
 
     Column(
         modifier = Modifier
-            .padding(normal),
+            .padding(paddingNormal),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -62,12 +62,12 @@ fun CustomNumericPad(
             fontSize = numberPadTextSize,
             fontWeight = FontWeight.Bold,
             modifier = Modifier
-                .padding(normal)
+                .padding(paddingNormal)
                 .fillMaxWidth()
                 .heightIn(min = 40.dp)
         )
 
-        Spacer(modifier = Modifier.height(normal))
+        Spacer(modifier = Modifier.height(paddingNormal))
 
         // Grid for numeric buttons and other actions
         Row {
@@ -85,7 +85,7 @@ fun CustomNumericPad(
                         modifier = Modifier.wrapContentWidth(),
                         horizontalArrangement = Arrangement.Center
                     ) {
-                        Spacer(modifier = Modifier.size(normal))
+                        Spacer(modifier = Modifier.size(paddingNormal))
                         row.forEach { label ->
                             label?.let {
                                 NumericButton(label) {
@@ -94,27 +94,27 @@ fun CustomNumericPad(
                             } ?: run {
                                 EmptyButton()
                             }
-                            Spacer(modifier = Modifier.size(normal))
+                            Spacer(modifier = Modifier.size(paddingNormal))
                         }
                     }
-                    Spacer(modifier = Modifier.size(normal))
+                    Spacer(modifier = Modifier.size(paddingNormal))
                 }
 
             }
-            Spacer(modifier = Modifier.size(big))
+            Spacer(modifier = Modifier.size(paddingBig))
             Column {
                 IconButton(R.drawable.ic_outline_backspace_24) {
                     if (inputValue.isNotEmpty()) {
                         inputValue = inputValue.dropLast(1)
                     }
                 }
-                Spacer(modifier = Modifier.size(normal))
+                Spacer(modifier = Modifier.size(paddingNormal))
                 NumericButton("C") {
                     inputValue = inputValue.addLabel("C")
                 }
             }
         }
-        Spacer(modifier = Modifier.size(normal))
+        Spacer(modifier = Modifier.size(paddingNormal))
         // Backspace and Save buttons row
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -123,7 +123,7 @@ fun CustomNumericPad(
             TextButton(R.string.button_exit, onClose)
             TextButton(R.string.button_save) { onValue(inputValue) }
         }
-        Spacer(modifier = Modifier.size(normal))
+        Spacer(modifier = Modifier.size(paddingNormal))
     }
 }
 
@@ -178,7 +178,7 @@ fun EmptyButton() {
 fun TextButton(id: Int, onClick: OnClick) {
     Box(
         modifier = Modifier
-            .padding(vertical = normal, horizontal = big)
+            .padding(vertical = paddingNormal, horizontal = paddingBig)
             .clickable { onClick() }
     ) {
         Text(

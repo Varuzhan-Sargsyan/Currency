@@ -43,6 +43,7 @@ import com.currency.exchange.app.ui.screens.components.SwipeToRefresh
 import com.currency.exchange.app.ui.theme.CurrencyAppTheme
 import com.currency.exchange.app.ui.theme.Dimensions.bigIconSize
 import com.currency.exchange.app.ui.theme.Dimensions.minimalPadding
+import com.currency.exchange.app.ui.theme.Dimensions.noPadding
 import com.currency.exchange.app.ui.theme.Dimensions.paddingMedium
 import com.currency.exchange.app.ui.theme.Dimensions.paddingNormal
 import com.currency.exchange.app.ui.theme.Dimensions.paddingSmall
@@ -133,7 +134,7 @@ fun CurrencyItem(
     ) {
         NetworkImage(
             modifier = Modifier
-                .iconModifier(iconSize = bigIconSize, iconPadding = 0.dp).clip(CircleShape),
+                .iconModifier(iconSize = bigIconSize, iconPadding = noPadding).clip(CircleShape),
             contentScale = ContentScale.Crop,
             imageUrl = currency.imageFlagUrl(),
             contentDescription = "Arrow down button"

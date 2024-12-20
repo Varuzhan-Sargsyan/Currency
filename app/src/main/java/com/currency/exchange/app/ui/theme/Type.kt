@@ -54,3 +54,11 @@ fun Typography.currencyNameStyle() = TextStyle (
     lineHeight = 16.sp,
     letterSpacing = 0.4.sp
 )
+
+fun Typography.titleStyle() = TextStyle (
+    fontFamily = FontFamily.Default,
+    fontWeight = FontWeight.SemiBold,
+    fontSize = 20.sp,
+    lineHeight = 24.sp,
+    letterSpacing = 0.7.sp
+)

@@ -45,6 +45,8 @@ import com.currency.exchange.app.ui.screens.components.GroupView
 import com.currency.exchange.app.ui.screens.components.NetworkImage
 import com.currency.exchange.app.ui.screens.components.VerticalSeparator
 import com.currency.exchange.app.ui.theme.CurrencyAppTheme
+import com.currency.exchange.app.ui.theme.Dimensions.dashboardCurrencyRowHeight
+import com.currency.exchange.app.ui.theme.Dimensions.noPadding
 import com.currency.exchange.app.ui.theme.Dimensions.paddingBig
 import com.currency.exchange.app.ui.theme.Dimensions.paddingMedium
 import com.currency.exchange.app.ui.theme.Dimensions.paddingNormal
@@ -102,10 +104,10 @@ fun CurrencyView(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .padding(0.dp)
+            .padding(noPadding)
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth().height(50.dp),
+            modifier = Modifier.fillMaxWidth().height(dashboardCurrencyRowHeight),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             EditText(
@@ -146,7 +148,7 @@ fun CurrencyView(
             ) {
                 NetworkImage(
                     modifier = Modifier
-                        .iconModifier(iconPadding = 0.dp).clip(CircleShape),
+                        .iconModifier(iconPadding = noPadding).clip(CircleShape),
                     contentScale = ContentScale.Crop,
                     imageUrl = currency.imageFlagUrl(),
                     contentDescription = "Arrow down button"
@@ -156,7 +158,7 @@ fun CurrencyView(
                     style = Typography.currencyCodeStyle()
                 )
                 Icon(
-                    modifier = Modifier.iconModifier(iconPadding = 0.dp),
+                    modifier = Modifier.iconModifier(iconPadding = noPadding),
                     imageVector = Icons.Default.KeyboardArrowDown,
                     contentDescription = "Arrow down button"
                 )
