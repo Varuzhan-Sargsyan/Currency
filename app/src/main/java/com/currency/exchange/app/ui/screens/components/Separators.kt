@@ -10,11 +10,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.currency.exchange.app.ui.theme.Dimensions.noPadding
 
 @Composable
 fun HorizontalDivider(
     thickness: Dp = 1.dp,
-    padding: Dp = 0.dp,
+    padding: Dp = noPadding,
     backgroundColor: Color = MaterialTheme.colorScheme.outlineVariant
 ) {
     HorizontalDivider(

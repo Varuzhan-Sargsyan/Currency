@@ -19,11 +19,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
 import com.currency.exchange.app.ui.theme.Elevations.noElevation
-import com.currency.exchange.app.ui.theme.Paddings.medium
-import com.currency.exchange.app.ui.theme.Paddings.normal
 import com.currency.exchange.app.ui.theme.Shapes
-import com.currency.exchange.app.ui.theme.Sizes.groupTitle
 import com.currency.exchange.app.ui.extensions.OnClick
+import com.currency.exchange.app.ui.theme.Dimensions.groupTitleTextSize
+import com.currency.exchange.app.ui.theme.Dimensions.paddingMedium
+import com.currency.exchange.app.ui.theme.Dimensions.paddingNormal
 import com.currency.exchange.app.ui.theme.borderDefaultColor
 import com.currency.exchange.app.ui.theme.groupViewBackgroundColor
 import com.currency.exchange.app.ui.theme.groupViewTextColor
@@ -54,12 +54,12 @@ fun GroupView(
                     text = it.uppercase(),
                     modifier = Modifier
                         .weight(1f)
-                        .padding(horizontal = normal),
-                    fontSize = groupTitle,
+                        .padding(horizontal = paddingNormal),
+                    fontSize = groupTitleTextSize,
                     color = MaterialTheme.iconDefaultColor()
                 )
             }
-            Spacer(modifier = Modifier.height(medium))
+            Spacer(modifier = Modifier.height(paddingMedium))
         }
         onClick?.let { clicker ->
             Card(
