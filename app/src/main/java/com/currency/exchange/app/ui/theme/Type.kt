@@ -50,7 +50,7 @@ fun Typography.currencyCodeStyle() = TextStyle (
 fun Typography.currencyNameStyle() = TextStyle (
     fontFamily = FontFamily.Default,
     fontWeight = FontWeight.Normal,
-    fontSize = 16.sp,
-    lineHeight = 22.sp,
+    fontSize = 14.sp,
+    lineHeight = 16.sp,
     letterSpacing = 0.4.sp
 )

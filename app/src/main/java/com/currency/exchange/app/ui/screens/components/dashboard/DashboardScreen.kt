@@ -48,25 +48,13 @@ import com.currency.exchange.app.ui.theme.CurrencyAppTheme
 import com.currency.exchange.app.ui.theme.Dimensions.paddingBig
 import com.currency.exchange.app.ui.theme.Dimensions.paddingMedium
 import com.currency.exchange.app.ui.theme.Dimensions.paddingNormal
-import com.currency.exchange.app.ui.theme.Dimensions.smallIconSize
 import com.currency.exchange.app.ui.theme.Elevations.defaultElevation
 import com.currency.exchange.app.ui.theme.Typography
+import com.currency.exchange.app.ui.utils.emptyCurrency
 import com.currency.exchange.app.ui.utils.iconModifier
 import com.currency.exchange.datamodule.domain.model.Currency
-import com.currency.exchange.datamodule.domain.model.Currency.Companion.DEFAULT_COUNTRY_CODE
-import com.currency.exchange.datamodule.domain.model.Currency.Companion.DEFAULT_COUNTRY_NAME
-import com.currency.exchange.datamodule.domain.model.Currency.Companion.DEFAULT_COUNTRY_FLAG
 import com.currency.exchange.datamodule.domain.model.Currency.Companion.testCurrencies
 import kotlin.math.pow
-
-@Composable
-private fun emptyCurrency() =
-    Currency(
-        code = stringResource(R.string.empty_currency_code),
-        name = stringResource(R.string.empty_currency_name),
-        countryName = DEFAULT_COUNTRY_NAME,
-        countryCode = DEFAULT_COUNTRY_CODE,
-        flag = DEFAULT_COUNTRY_FLAG)
 
 @Composable
 fun DashboardScreen(viewModel: DashboardViewModel = hiltViewModel()) {
@@ -158,7 +146,7 @@ fun CurrencyView(
             ) {
                 NetworkImage(
                     modifier = Modifier
-                        .iconModifier(iconSize = smallIconSize, iconPadding = 0.dp).clip(CircleShape),
+                        .iconModifier(iconPadding = 0.dp).clip(CircleShape),
                     contentScale = ContentScale.Crop,
                     imageUrl = currency.imageFlagUrl(),
                     contentDescription = "Arrow down button"
