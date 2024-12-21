@@ -10,12 +10,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.currency.exchange.app.ui.screens.components.topbar.CurrenciesBar
-import com.currency.exchange.app.ui.screens.components.topbar.DashboardBar
+import com.currency.exchange.app.ui.screens.uicomponents.topbar.CurrenciesBar
+import com.currency.exchange.app.ui.screens.uicomponents.topbar.DashboardBar
 import com.currency.exchange.app.ui.screens.navigation.AppNavHost
+import com.currency.exchange.app.ui.screens.uicomponents.topbar.SettingsBar
 import com.currency.exchange.datamodule.domain.model.Screen
 import com.currency.exchange.datamodule.domain.model.routeToScreen
 import com.currency.exchange.app.ui.theme.CurrencyAppTheme
@@ -31,8 +33,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            CurrencyAppTheme(0) {
-
+            val applicationSettingsFlow = viewModel.applicationSettingsFlow.collectAsState(null)
+            applicationSettingsFlow.value ?: return@setContent
+            CurrencyAppTheme(applicationSettingsFlow.value?.theme!!) {
                 val navController = rememberNavController()
                 LaunchedEffect(key1 = viewModel.screenFlow) {
                     viewModel.screenFlow.collectLatest { screen ->
@@ -58,8 +61,9 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     topBar = {
                         when (currentRoute.routeToScreen()) {
-                            Screen.Dashboard -> DashboardBar()
+                            Screen.Dashboard -> DashboardBar { viewModel.navigateToSettings() }
                             Screen.Currencies -> CurrenciesBar { viewModel.navigateBack() }
+                            Screen.Settings -> SettingsBar { viewModel.navigateBack() }
                             else -> {}
                         }
                     }

@@ -3,6 +3,7 @@ package com.currency.exchange.app.ui.screens.navigation
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -36,5 +37,6 @@ fun getIcon(screen: Screen): @Composable () -> Unit = {
     when (screen) {
         Screen.Dashboard -> Icon(modifier = Modifier.iconModifier(), imageVector = Icons.Default.Home, contentDescription = screen.title)
         Screen.Currencies -> Icon(modifier = Modifier.iconModifier(), painter = painterResource(R.drawable.ic_currencies), contentDescription = screen.title)
+        Screen.Settings -> Icon(modifier = Modifier.iconModifier(), imageVector = Icons.Default.Settings, contentDescription = screen.title)
     }
 }

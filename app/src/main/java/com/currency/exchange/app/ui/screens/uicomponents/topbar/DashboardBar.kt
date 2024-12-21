@@ -1,4 +1,4 @@
-package com.currency.exchange.app.ui.screens.components.topbar
+package com.currency.exchange.app.ui.screens.uicomponents.topbar
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -18,19 +18,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.currency.exchange.app.R
+import com.currency.exchange.app.ui.extensions.OnClick
 import com.currency.exchange.app.ui.theme.CurrencyAppTheme
-import com.currency.exchange.app.ui.theme.Dimensions.iconPadding
 import com.currency.exchange.app.ui.theme.Dimensions.paddingNormal
 import com.currency.exchange.app.ui.theme.appBarColorSchema
 import com.currency.exchange.app.ui.theme.titleStyle
 import com.currency.exchange.app.ui.utils.clickableIconModifier
-import com.currency.exchange.app.ui.utils.iconModifier
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DashboardBar() {
+fun DashboardBar(
+    onSettings: OnClick
+) {
     TopAppBar(
         modifier = Modifier
             .fillMaxWidth()
@@ -52,7 +52,7 @@ fun DashboardBar() {
                 Icon(
                     imageVector = Icons.Default.Settings,
                     contentDescription = null,
-                    modifier = Modifier.clickableIconModifier {}
+                    modifier = Modifier.clickableIconModifier { onSettings() }
                 )
 
                 Spacer(modifier = Modifier.width(paddingNormal))
@@ -64,7 +64,7 @@ fun DashboardBar() {
 @Preview(showBackground = true)
 @Composable
 fun HomeAppBarPreview() {
-    CurrencyAppTheme(0) {
-        DashboardBar()
+    CurrencyAppTheme {
+        DashboardBar {}
     }
 }

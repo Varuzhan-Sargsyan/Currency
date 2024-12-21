@@ -1,4 +1,4 @@
-package com.currency.exchange.app.ui.screens.components.dashboard
+package com.currency.exchange.app.ui.screens.dashboard
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -40,10 +40,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.currency.exchange.app.R
 import com.currency.exchange.app.ui.extensions.OnFloat
-import com.currency.exchange.app.ui.screens.components.EditText
-import com.currency.exchange.app.ui.screens.components.GroupView
-import com.currency.exchange.app.ui.screens.components.NetworkImage
-import com.currency.exchange.app.ui.screens.components.VerticalSeparator
+import com.currency.exchange.app.ui.screens.uicomponents.EditText
+import com.currency.exchange.app.ui.screens.uicomponents.GroupView
+import com.currency.exchange.app.ui.screens.uicomponents.NetworkImage
+import com.currency.exchange.app.ui.screens.uicomponents.VerticalSeparator
 import com.currency.exchange.app.ui.theme.CurrencyAppTheme
 import com.currency.exchange.app.ui.theme.Dimensions.dashboardCurrencyRowHeight
 import com.currency.exchange.app.ui.theme.Dimensions.noPadding
@@ -171,7 +171,7 @@ fun CurrencyView(
 @Composable
 fun CurrencyViewPreview() {
     val list = testCurrencies + emptyCurrency()
-    CurrencyAppTheme(0) {
+    CurrencyAppTheme {
         LazyColumn (modifier = Modifier.fillMaxWidth().padding(24.dp)) {
             itemsIndexed(list) { index, currency ->
                 CurrencyView(

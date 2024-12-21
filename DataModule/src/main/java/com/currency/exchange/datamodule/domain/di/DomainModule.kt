@@ -6,6 +6,8 @@ import com.currency.exchange.datamodule.data.interfaces.ILocalRepository
 import com.currency.exchange.datamodule.data.interfaces.ISharedDataRepository
 import com.currency.exchange.datamodule.domain.repositories.CurrencyRepository
 import com.currency.exchange.datamodule.domain.interfaces.ICurrencyRepository
+import com.currency.exchange.datamodule.domain.interfaces.ISettingsRepository
+import com.currency.exchange.datamodule.domain.repositories.SettingsRepositoryRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,4 +30,8 @@ class DomainModule {
             localRepository = localRepository
         ) as ICurrencyRepository
 
+    @Singleton
+    @Provides
+    fun provideSettingsRepository(localRepository: ILocalRepository) =
+        SettingsRepositoryRepository(localRepository = localRepository) as ISettingsRepository
 }

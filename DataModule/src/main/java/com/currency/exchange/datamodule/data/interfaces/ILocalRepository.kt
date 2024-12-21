@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.stateIn
+import kotlin.jvm.java
 
 interface ILocalRepository {
 
@@ -61,3 +62,6 @@ inline fun <reified T> SharedPreferences.getFlowForKey(keyOfObject: String) = ca
     }
     awaitClose { unregisterOnSharedPreferenceChangeListener(listener) }
 }.buffer(Channel.UNLIMITED) // trySend never fails
+
+inline fun <reified T> ILocalRepository.flow(keyOfObject: String) =
+    sharedPref.getFlowForKey<T>(keyOfObject)

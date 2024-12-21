@@ -1,4 +1,4 @@
-package com.currency.exchange.app.ui.screens.components.currencies
+package com.currency.exchange.app.ui.screens.currencies
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

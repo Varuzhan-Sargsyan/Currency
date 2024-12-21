@@ -10,6 +10,7 @@ import androidx.compose.ui.unit.Dp
 import com.currency.exchange.app.R
 import com.currency.exchange.app.ui.extensions.OnClick
 import com.currency.exchange.app.ui.theme.Dimensions
+import com.currency.exchange.app.ui.theme.Dimensions.bigIconSize
 import com.currency.exchange.app.ui.theme.Dimensions.noPadding
 import com.currency.exchange.datamodule.domain.model.Currency
 import com.currency.exchange.datamodule.domain.model.Currency.Companion.DEFAULT_COUNTRY_CODE
@@ -22,10 +23,10 @@ fun Modifier.iconModifier(
 ) = this.size(iconSize).padding(iconPadding)
 
 fun Modifier.clickableIconModifier(
-    iconSize: Dp = Dimensions.iconSize,
-    iconPadding: Dp = noPadding,
+    iconSize: Dp = bigIconSize,
+    iconPadding: Dp = Dimensions.iconPadding,
     onClick: OnClick
-) = this.size(iconSize).padding(iconPadding).clickable { onClick() }
+) = this.size(iconSize).clickable { onClick() }.padding(iconPadding)
 
 @Composable
 fun emptyCurrency() =

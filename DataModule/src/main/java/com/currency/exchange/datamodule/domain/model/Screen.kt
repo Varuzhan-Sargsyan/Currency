@@ -20,5 +20,6 @@ fun String.routeToScreen() =
     when (this) {
         Screen.Dashboard.route -> Screen.Dashboard
         Screen.Currencies.route -> Screen.Currencies
+        Screen.Settings.route -> Screen.Settings
         else -> null
     }

@@ -14,8 +14,8 @@ object Dimensions {
     val paddingLarge = 32.dp
 
     val iconSize = 24.dp
-    val bigIconSize = 32.dp
-    val iconPadding = 4.dp
+    val bigIconSize = 40.dp
+    val iconPadding = 8.dp
 
     val clickableIconSize = 32.dp
 
@@ -24,4 +24,7 @@ object Dimensions {
     val numberPadButtonSize = 60.dp
     val dashboardCurrencyRowHeight = 50.dp
     val numberPadTextSize = 32.sp
+
+    val defaultFieldHeight = 50.dp
+    val textFieldLabel = 15.sp
 }

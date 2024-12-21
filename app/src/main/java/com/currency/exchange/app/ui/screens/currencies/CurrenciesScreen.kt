@@ -1,4 +1,4 @@
-package com.currency.exchange.app.ui.screens.components.currencies
+package com.currency.exchange.app.ui.screens.currencies
 
 import android.annotation.SuppressLint
 import androidx.activity.compose.BackHandler
@@ -37,9 +37,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.currency.exchange.app.ui.extensions.OnClick
-import com.currency.exchange.app.ui.screens.components.HorizontalSeparator
-import com.currency.exchange.app.ui.screens.components.NetworkImage
-import com.currency.exchange.app.ui.screens.components.SwipeToRefresh
+import com.currency.exchange.app.ui.screens.uicomponents.HorizontalSeparator
+import com.currency.exchange.app.ui.screens.uicomponents.NetworkImage
+import com.currency.exchange.app.ui.screens.uicomponents.SwipeToRefresh
 import com.currency.exchange.app.ui.theme.CurrencyAppTheme
 import com.currency.exchange.app.ui.theme.Dimensions.bigIconSize
 import com.currency.exchange.app.ui.theme.Dimensions.minimalPadding
@@ -54,6 +54,7 @@ import com.currency.exchange.app.ui.utils.emptyCurrency
 import com.currency.exchange.app.ui.utils.iconModifier
 import com.currency.exchange.datamodule.domain.model.Currency
 import com.currency.exchange.datamodule.domain.model.Currency.Companion.testCurrencies
+import com.currency.exchange.datamodule.domain.model.Theme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -165,7 +166,7 @@ fun CurrencyItem(
 @Composable
 fun CurrencyItemPreview() {
     val list = testCurrencies + emptyCurrency()
-    CurrencyAppTheme(0) {
+    CurrencyAppTheme {
         LazyColumn (modifier = Modifier.fillMaxWidth().padding(4.dp)) {
             itemsIndexed(list) { index, currency ->
                 CurrencyItem(currency = currency) {}

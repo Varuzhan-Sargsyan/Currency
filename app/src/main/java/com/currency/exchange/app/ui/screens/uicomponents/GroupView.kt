@@ -1,4 +1,4 @@
-package com.currency.exchange.app.ui.screens.components
+package com.currency.exchange.app.ui.screens.uicomponents
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke

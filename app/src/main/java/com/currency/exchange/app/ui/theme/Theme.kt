@@ -19,6 +19,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 import com.currency.exchange.app.ui.extensions.toColor
+import com.currency.exchange.datamodule.domain.model.Theme
 
 private fun darkColorSchemeW(primary: Color = PrimaryDark) = darkColorScheme(
     primary = primary,
@@ -42,17 +43,15 @@ private fun lightColorSchemeW(primary: Color = PrimaryLight) = lightColorScheme(
     outlineVariant = OutlineVariantLight
 )
 
-var theme: Int? = null
-
 @Composable
 fun CurrencyAppTheme(
-    themeInt: Int?,
+    themeInt: Theme = Theme.light(),
     colorCustom: Int? = null,
     dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
-    theme = themeInt
-    val darkTheme = Theme.isDarkTheme(theme = theme)
+    Theme.theme = themeInt
+    val darkTheme = Theme.isDarkTheme() || Theme.isSystemTheme() && isSystemInDarkTheme()
     val colorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current
@@ -70,7 +69,7 @@ fun CurrencyAppTheme(
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 // For API 30 and above
                 val insetsController = window.insetsController
-                window.statusBarColor = colorScheme.primary.toArgb()
+//                window.statusBarColor = colorScheme.primary.toArgb()
                 insetsController?.setSystemBarsAppearance(
                     if (darkTheme) 0 else WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,
                     WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
@@ -98,15 +97,11 @@ fun CurrencyAppTheme(
 
 @Composable
 fun MaterialTheme.groupViewBackgroundColor() =
-    if (Theme.isDarkTheme(theme = theme)) GroupViewBackgroundDark else GroupViewBackgroundLight
-
-//@Composable
-//fun MaterialTheme.sessionBackground(selected: Boolean) =
-//    if (selected) iconDefaultColor() else groupViewBackgroundColor()
+    if (Theme.isDarkTheme() || Theme.isSystemTheme() && isSystemInDarkTheme()) GroupViewBackgroundDark else GroupViewBackgroundLight
 
 @Composable
 fun MaterialTheme.groupViewTextColor() =
-    if (!Theme.isDarkTheme(theme = theme)) GroupViewBackgroundDark else GroupViewBackgroundLight
+    if (!Theme.isDarkTheme() || Theme.isSystemTheme() && isSystemInDarkTheme()) GroupViewBackgroundDark else GroupViewBackgroundLight
 
 //@Composable
 //fun MaterialTheme.groupViewTextInverseColor() =
@@ -114,7 +109,7 @@ fun MaterialTheme.groupViewTextColor() =
 
 @Composable
 fun MaterialTheme.iconDefaultColor() =
-    if (Theme.isDarkTheme(theme = theme)) IconColorDark else IconColorLight
+    if (Theme.isDarkTheme() || Theme.isSystemTheme() && isSystemInDarkTheme()) IconColorDark else IconColorLight
 
 //@Composable
 //fun MaterialTheme.iconActionColor(enabled: Boolean) : Color =
@@ -125,7 +120,7 @@ fun MaterialTheme.iconDefaultColor() =
 
 @Composable
 fun MaterialTheme.borderDefaultColor() =
-    if (!Theme.isDarkTheme(theme = theme)) IconColorDark else IconColorLight
+    if (!Theme.isDarkTheme() || Theme.isSystemTheme() && isSystemInDarkTheme()) IconColorDark else IconColorLight
 
 //fun MaterialTheme.statusBarColor(status: Boolean) =
 //    if (status) StatusBarActive else StatusBarInactive
@@ -168,14 +163,3 @@ fun MaterialTheme.appBarColorSchema() = TopAppBarDefaults.topAppBarColors(
 )
 
 
-object Theme {
-    const val LIGHT = 0
-    const val DARK = 1
-
-    @Composable
-    fun isDarkTheme(theme: Int?) = when(theme) {
-        LIGHT -> false
-        DARK -> true
-        else -> isSystemInDarkTheme()
-    }
-}

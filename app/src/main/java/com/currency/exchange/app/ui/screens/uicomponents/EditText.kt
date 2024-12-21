@@ -1,4 +1,4 @@
-package com.currency.exchange.app.ui.screens.components
+package com.currency.exchange.app.ui.screens.uicomponents
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.BasicTextField

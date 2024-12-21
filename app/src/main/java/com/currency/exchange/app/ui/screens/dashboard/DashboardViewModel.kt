@@ -1,4 +1,4 @@
-package com.currency.exchange.app.ui.screens.components.dashboard
+package com.currency.exchange.app.ui.screens.dashboard
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
