@@ -19,6 +19,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 import com.currency.exchange.app.ui.extensions.toColor
+import com.currency.exchange.app.ui.utils.isDarkTheme
 import com.currency.exchange.datamodule.domain.model.Theme
 
 private fun darkColorSchemeW(primary: Color = PrimaryDark) = darkColorScheme(
@@ -97,11 +98,11 @@ fun CurrencyAppTheme(
 
 @Composable
 fun MaterialTheme.groupViewBackgroundColor() =
-    if (Theme.isDarkTheme() || Theme.isSystemTheme() && isSystemInDarkTheme()) GroupViewBackgroundDark else GroupViewBackgroundLight
+    if (isDarkTheme()) GroupViewBackgroundDark else GroupViewBackgroundLight
 
 @Composable
 fun MaterialTheme.groupViewTextColor() =
-    if (!Theme.isDarkTheme() || Theme.isSystemTheme() && isSystemInDarkTheme()) GroupViewBackgroundDark else GroupViewBackgroundLight
+    if (!isDarkTheme()) GroupViewBackgroundDark else GroupViewBackgroundLight
 
 //@Composable
 //fun MaterialTheme.groupViewTextInverseColor() =
@@ -109,7 +110,7 @@ fun MaterialTheme.groupViewTextColor() =
 
 @Composable
 fun MaterialTheme.iconDefaultColor() =
-    if (Theme.isDarkTheme() || Theme.isSystemTheme() && isSystemInDarkTheme()) IconColorDark else IconColorLight
+    if (isDarkTheme()) IconColorDark else IconColorLight
 
 //@Composable
 //fun MaterialTheme.iconActionColor(enabled: Boolean) : Color =
@@ -120,7 +121,7 @@ fun MaterialTheme.iconDefaultColor() =
 
 @Composable
 fun MaterialTheme.borderDefaultColor() =
-    if (!Theme.isDarkTheme() || Theme.isSystemTheme() && isSystemInDarkTheme()) IconColorDark else IconColorLight
+    if (!isDarkTheme()) IconColorDark else IconColorLight
 
 //fun MaterialTheme.statusBarColor(status: Boolean) =
 //    if (status) StatusBarActive else StatusBarInactive

@@ -30,7 +30,6 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.currency.exchange.app.R
-import com.currency.exchange.app.ui.extensions.OnItem
 import com.currency.exchange.app.ui.extensions.OnString
 import com.currency.exchange.app.ui.extensions.OnTheme
 import com.currency.exchange.app.ui.theme.Dimensions.defaultFieldHeight
@@ -55,10 +54,8 @@ fun DropDownView(
         mutableStateOf(false)
     }
     
-    var text by remember {
-        mutableStateOf(labelValue)
-    }
-    
+    var text = labelValue
+
     Row(
         modifier = Modifier
             .clickable { expanded = true }
@@ -119,78 +116,6 @@ fun DropDownView(
                     onClick = {
                         expanded = false
                         text = item
-                        onSelect(item)
-                    }
-                )
-            }
-        }
-    }
-}
-
-interface SimpleDataInterface {
-    fun text() : String
-}
-
-@Composable
-fun DropDownView(
-    modifier: Modifier = Modifier,
-    labelName: String,
-    labelValue: String,
-    items: List<SimpleDataInterface>,
-    onSelect: OnItem<SimpleDataInterface>,
-) {
-    var expanded by remember {
-        mutableStateOf(false)
-    }
-
-    var text by remember {
-        mutableStateOf(labelValue)
-    }
-
-    Row(
-        modifier = Modifier
-            .clickable { expanded = true }
-            .padding(horizontal = paddingNormal)
-            .heightIn(defaultFieldHeight)
-            .then(modifier),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center
-    ) {
-        TextFieldLabel(
-            text = labelName,
-            modifier = Modifier
-                .weight(1f)
-        )
-        TextFieldLabel(
-            text = text,
-        )
-        Icon(
-            modifier = Modifier.size(iconSize),
-            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-            contentDescription = "Click to select",
-        )
-
-        DropdownMenu(
-            modifier = Modifier
-                .width((LocalConfiguration.current.screenWidthDp * 0.92).dp)
-                .background(MaterialTheme.groupViewBackgroundColor()),
-            expanded = expanded,
-            onDismissRequest = { expanded = false }
-        ) {
-            items.forEach { item ->
-                DropdownMenuItem(
-                    text = {
-                        Row {
-                            TextFieldLabel(
-                                text = item.text(),
-                                modifier = Modifier
-                                    .weight(1f)
-                            )
-                        }
-                    },
-                    onClick = {
-                        expanded = false
-                        text = item.text()
                         onSelect(item)
                     }
                 )

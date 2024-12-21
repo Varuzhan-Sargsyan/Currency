@@ -56,6 +56,7 @@ import com.currency.exchange.app.ui.utils.emptyCurrency
 import com.currency.exchange.app.ui.utils.iconModifier
 import com.currency.exchange.datamodule.domain.model.Currency
 import com.currency.exchange.datamodule.domain.model.Currency.Companion.testCurrencies
+import com.currency.exchange.datamodule.domain.model.Theme
 import kotlin.math.pow
 
 @Composable
@@ -171,7 +172,7 @@ fun CurrencyView(
 @Composable
 fun CurrencyViewPreview() {
     val list = testCurrencies + emptyCurrency()
-    CurrencyAppTheme {
+    CurrencyAppTheme(Theme.dark()) {
         LazyColumn (modifier = Modifier.fillMaxWidth().padding(24.dp)) {
             itemsIndexed(list) { index, currency ->
                 CurrencyView(

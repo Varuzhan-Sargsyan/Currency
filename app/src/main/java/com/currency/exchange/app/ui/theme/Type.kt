@@ -1,6 +1,8 @@
 package com.currency.exchange.app.ui.theme
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Typography
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -39,7 +41,9 @@ fun Typography.appBarTitleStyle() = TextStyle (
     letterSpacing = 0.5.sp
 )
 
+@Composable
 fun Typography.currencyCodeStyle() = TextStyle (
+    color = MaterialTheme.groupViewTextColor(),
     fontFamily = FontFamily.Default,
     fontWeight = FontWeight.SemiBold,
     fontSize = 16.sp,
@@ -47,7 +51,9 @@ fun Typography.currencyCodeStyle() = TextStyle (
     letterSpacing = 0.6.sp
 )
 
+@Composable
 fun Typography.currencyNameStyle() = TextStyle (
+    color = MaterialTheme.groupViewTextColor(),
     fontFamily = FontFamily.Default,
     fontWeight = FontWeight.Normal,
     fontSize = 14.sp,
@@ -55,7 +61,9 @@ fun Typography.currencyNameStyle() = TextStyle (
     letterSpacing = 0.4.sp
 )
 
+@Composable
 fun Typography.titleStyle() = TextStyle (
+    color = MaterialTheme.groupViewTextColor(),
     fontFamily = FontFamily.Default,
     fontWeight = FontWeight.SemiBold,
     fontSize = 20.sp,
