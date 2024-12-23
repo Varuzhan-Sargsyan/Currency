@@ -10,11 +10,12 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface RateDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(rateDTOS: List<RateDTO>)
+    fun insert(rateDTOS: RateDTO)
 
-    @Query("SELECT * FROM rates_dto WHERE currencyFrom = :currencyFrom")
-    fun subscribe(currencyFrom: String) : Flow<RateDTO?>
+    @Query("SELECT * FROM rates_dto WHERE base = :code")
+    fun rateFlow(code: String) : Flow<RateDTO?>
 
-    @Query("DELETE FROM rates_dto WHERE currencyFrom = :currencyFrom")
-    fun deleteCurrency(currencyFrom: String)
+
+    @Query("SELECT * FROM rates_dto WHERE base = :code AND date = :date")
+    fun rateFlow(code: String, date: String) : Flow<RateDTO?>
 }

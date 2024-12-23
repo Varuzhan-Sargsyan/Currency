@@ -1,4 +1,4 @@
-package com.currency.exchange.datamodule.data.utils
+package com.currency.exchange.datamodule.utils
 
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken

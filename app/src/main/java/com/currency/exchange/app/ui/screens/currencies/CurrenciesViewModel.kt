@@ -10,6 +10,7 @@ import com.currency.exchange.datamodule.data.repositories.navigateBack
 import com.currency.exchange.datamodule.domain.interfaces.ICurrencyRepository
 import com.currency.exchange.datamodule.domain.model.Currency
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -27,9 +28,12 @@ class CurrenciesViewModel @Inject constructor(
     private val sharedDataRepository: ISharedDataRepository
 ) : ViewModel() {
 
+    private var jobCurrencies = null as Job?
+
     fun subscribeToCurrencies() = callbackFlow {
-        runInThread {
-            currencyRepository.currenciesFlow(true).collect {
+        jobCurrencies?.cancel()
+        jobCurrencies = runInThread {
+            currencyRepository.currenciesFlow(false).collect {
                 send(it)
             }
         }
@@ -57,5 +61,10 @@ class CurrenciesViewModel @Inject constructor(
 
     fun navigateBack() {
         sharedDataRepository.navigateBack()
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        jobCurrencies?.cancel()
     }
 }

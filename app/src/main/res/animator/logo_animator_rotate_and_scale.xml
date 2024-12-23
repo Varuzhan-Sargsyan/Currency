@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<objectAnimator xmlns:android="http://schemas.android.com/apk/res/android"
+    android:duration="3000">
+
+<!--    <propertyValuesHolder-->
+<!--        android:propertyName="rotation"-->
+<!--        android:valueType="floatType"-->
+<!--        android:valueFrom="@dimen/rotation_start"-->
+<!--        android:valueTo="@dimen/rotation_end" />-->
+
+    <propertyValuesHolder
+        android:propertyName="scaleX"
+        android:valueType="floatType"
+        android:valueFrom="@dimen/scale_start"
+        android:valueTo="@dimen/scale_end" />
+
+    <propertyValuesHolder
+        android:propertyName="scaleY"
+        android:valueType="floatType"
+        android:valueFrom="@dimen/scale_start"
+        android:valueTo="@dimen/scale_end" />
+
+</objectAnimator>

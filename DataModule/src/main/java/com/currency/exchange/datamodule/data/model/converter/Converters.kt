@@ -12,6 +12,17 @@ class Converters {
 
     private val gson = Gson()
 
+    // Rate map Converters
+    @TypeConverter
+    fun fromRateMap(rates: Map<String, Double>) : String {
+        return gson.toJson(rates)
+    }
+
+    @TypeConverter
+    fun toRateMap(nameJson: String): Map<String, Double> {
+        val type = object : TypeToken<Map<String, Double>>() {}.type
+        return gson.fromJson(nameJson, type)
+    }
     // NameDTO Converters
     @TypeConverter
     fun fromNameDTO(name: NameDTO): String {

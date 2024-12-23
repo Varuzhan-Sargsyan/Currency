@@ -6,7 +6,7 @@ import com.currency.exchange.datamodule.domain.interfaces.ISettingsRepository
 import com.currency.exchange.datamodule.domain.model.ApplicationSettings
 import kotlinx.coroutines.flow.Flow
 
-class SettingsRepositoryRepository(private val localRepository: ILocalRepository) : ISettingsRepository {
+class SettingsRepository(private val localRepository: ILocalRepository) : ISettingsRepository {
     companion object {
         private const val KEY_APPLICATION_SETTINGS = "application_settings"
     }

@@ -5,8 +5,8 @@ import android.content.SharedPreferences
 import com.currency.exchange.datamodule.data.interfaces.ILocalRepository
 import com.currency.exchange.datamodule.data.interfaces.ILocalRepository.Companion.PREF
 import com.currency.exchange.datamodule.data.interfaces.getFlowForKey
-import com.currency.exchange.datamodule.data.utils.JsonHelper.fromJson
-import com.currency.exchange.datamodule.data.utils.JsonHelper.toJson
+import com.currency.exchange.datamodule.utils.JsonHelper.fromJson
+import com.currency.exchange.datamodule.utils.JsonHelper.toJson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn

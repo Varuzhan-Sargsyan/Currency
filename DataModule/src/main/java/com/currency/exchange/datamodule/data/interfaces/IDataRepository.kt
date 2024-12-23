@@ -12,7 +12,8 @@ interface IDataRepository {
     suspend fun downloadCountryInformation() : Response
     suspend fun countriesDTOFlow(reload: Boolean) : Flow<List<CountryDTO>>
 
-    suspend fun downloadRates(currencyDTO: CurrencyDTO)
+    suspend fun downloadRate(code: String, date: String) : Response
+    suspend fun downloadRates(date: String)
     suspend fun currencyExceptionsFlow() : Flow<Exception?>
     suspend fun dashboardExceptionsFlow() : Flow<Exception?>
 

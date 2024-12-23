@@ -70,7 +70,7 @@ fun CurrencyAppTheme(
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 // For API 30 and above
                 val insetsController = window.insetsController
-//                window.statusBarColor = colorScheme.primary.toArgb()
+                window.statusBarColor = colorScheme.primary.toArgb()
                 insetsController?.setSystemBarsAppearance(
                     if (darkTheme) 0 else WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,
                     WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS

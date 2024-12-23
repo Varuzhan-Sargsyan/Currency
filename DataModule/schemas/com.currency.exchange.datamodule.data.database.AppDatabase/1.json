@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "f58277aed39cc38e3d32cdf43199c517",
+    "identityHash": "c3d1f19cfdf87c716e17bda8db5ffb7f",
     "entities": [
       {
         "tableName": "currencies_dto",
@@ -32,17 +32,17 @@
       },
       {
         "tableName": "rates_dto",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`currencyFrom` TEXT NOT NULL, `currencyTo` TEXT NOT NULL, `date` TEXT NOT NULL, `rate` REAL NOT NULL, PRIMARY KEY(`currencyFrom`, `currencyTo`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`amount` REAL NOT NULL, `base` TEXT NOT NULL, `date` TEXT NOT NULL, `rates` TEXT NOT NULL, PRIMARY KEY(`base`, `date`))",
         "fields": [
           {
-            "fieldPath": "currencyFrom",
-            "columnName": "currencyFrom",
-            "affinity": "TEXT",
+            "fieldPath": "amount",
+            "columnName": "amount",
+            "affinity": "REAL",
             "notNull": true
           },
           {
-            "fieldPath": "currencyTo",
-            "columnName": "currencyTo",
+            "fieldPath": "base",
+            "columnName": "base",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -53,17 +53,17 @@
             "notNull": true
           },
           {
-            "fieldPath": "rate",
-            "columnName": "rate",
-            "affinity": "REAL",
+            "fieldPath": "rates",
+            "columnName": "rates",
+            "affinity": "TEXT",
             "notNull": true
           }
         ],
         "primaryKey": {
           "autoGenerate": false,
           "columnNames": [
-            "currencyFrom",
-            "currencyTo"
+            "base",
+            "date"
           ]
         },
         "indices": [],
@@ -111,7 +111,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f58277aed39cc38e3d32cdf43199c517')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c3d1f19cfdf87c716e17bda8db5ffb7f')"
     ]
   }
 }

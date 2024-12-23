@@ -1,6 +1,8 @@
 package com.currency.exchange.app.ui.screens
 
+import android.animation.ObjectAnimator
 import android.os.Bundle
+import android.view.View
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -12,6 +14,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.core.animation.doOnEnd
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.currency.exchange.app.ui.screens.uicomponents.topbar.CurrenciesBar
@@ -31,7 +35,37 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        installSplashScreen().apply {
+            setKeepOnScreenCondition {
+                !viewModel.isReady.value
+            }
+            setOnExitAnimationListener { screen ->
+                ObjectAnimator.ofFloat(
+                    screen.iconView,
+                    View.SCALE_X,
+                    0.4f,
+                    0.0f
+                ).apply {
+                    interpolator = android.view.animation.BounceInterpolator()
+                    duration = 1000L
+                    doOnEnd { screen.remove() }
+                }.start()
+
+                ObjectAnimator.ofFloat(
+                    screen.iconView,
+                    View.SCALE_Y,
+                    0.4f,
+                    0.0f
+                ).apply {
+                    interpolator = android.view.animation.BounceInterpolator()
+                    duration = 1000L
+                    doOnEnd { screen.remove() }
+                }.start()
+            }
+        }
+
         enableEdgeToEdge()
+
         setContent {
             val applicationSettingsFlow = viewModel.applicationSettingsFlow.collectAsState(null)
             applicationSettingsFlow.value ?: return@setContent
@@ -58,11 +92,13 @@ class MainActivity : ComponentActivity() {
                 val currentRoute = navBackStackEntry?.destination?.route ?: Screen.Dashboard.route
 
                 Scaffold(
-                    modifier = Modifier.fillMaxSize(),
                     topBar = {
                         when (currentRoute.routeToScreen()) {
                             Screen.Dashboard -> DashboardBar { viewModel.navigateToSettings() }
-                            Screen.Currencies -> CurrenciesBar { viewModel.navigateBack() }
+                            Screen.Currencies -> CurrenciesBar(
+                                onReload = { viewModel.reload() },
+                                onBack = { viewModel.navigateBack() }
+                            )
                             Screen.Settings -> SettingsBar { viewModel.navigateBack() }
                             else -> {}
                         }

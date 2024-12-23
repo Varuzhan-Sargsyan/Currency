@@ -3,8 +3,10 @@ package com.currency.exchange.datamodule.domain.interfaces
 import com.currency.exchange.datamodule.domain.model.Currency
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
+import java.util.Date
 
 interface ICurrencyRepository {
+    suspend fun getLastReloadDate() : Date
     suspend fun reload()
     suspend fun currenciesFlow(reload: Boolean) : Flow<List<Currency>>
 

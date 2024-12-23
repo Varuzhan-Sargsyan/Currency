@@ -3,7 +3,7 @@ package com.currency.exchange.datamodule.data.interfaces
 import android.content.SharedPreferences
 import com.currency.exchange.datamodule.data.interfaces.ILocalRepository.Companion.KEY_BUY_CURRENCY
 import com.currency.exchange.datamodule.data.interfaces.ILocalRepository.Companion.KEY_SELL_CURRENCY
-import com.currency.exchange.datamodule.data.utils.JsonHelper.fromJson
+import com.currency.exchange.datamodule.utils.JsonHelper.fromJson
 import com.currency.exchange.datamodule.domain.model.Currency
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel

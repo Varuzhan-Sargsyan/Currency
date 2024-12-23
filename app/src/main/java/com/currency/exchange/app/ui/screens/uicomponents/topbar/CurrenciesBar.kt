@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Update
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -31,7 +32,10 @@ import com.currency.exchange.app.ui.utils.clickableIconModifier
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CurrenciesBar(onBack: OnClick) {
+fun CurrenciesBar(
+    onReload: OnClick,
+    onBack: OnClick
+) {
     TopAppBar(
         modifier = Modifier
             .fillMaxWidth()
@@ -54,6 +58,11 @@ fun CurrenciesBar(onBack: OnClick) {
                         .padding(paddingNormal)
                 )
                 Spacer(modifier = Modifier.width(paddingSmall))
+                Icon(
+                    imageVector = Icons.Default.Update,
+                    contentDescription = null,
+                    modifier = Modifier.clickableIconModifier { onReload() }
+                )
             }
         },
     )
@@ -64,7 +73,7 @@ fun CurrenciesBar(onBack: OnClick) {
 fun CurrenciesAppBarPreview() {
     CurrencyAppTheme {
         Column {
-            CurrenciesBar {}
+            CurrenciesBar({}) {}
             Spacer(Modifier.size(10.dp))
             DashboardBar {}
         }

@@ -16,12 +16,16 @@ import com.currency.exchange.datamodule.domain.model.Currency
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import java.util.Date
 
 class CurrencyRepository(
     private val dataRepository: IDataRepository,
     private val sharedDataRepository: ISharedDataRepository,
     private val localRepository: ILocalRepository
 ) : ICurrencyRepository {
+    override suspend fun getLastReloadDate(): Date {
+        TODO("Not yet implemented")
+    }
 
     override suspend fun reload() {
         dataRepository.downloadCurrencyInformation()

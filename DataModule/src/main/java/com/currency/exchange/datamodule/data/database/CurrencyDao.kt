@@ -16,4 +16,7 @@ interface CurrencyDao {
     @Query("SELECT * FROM currencies_dto")
     fun currenciesFlow() : Flow<List<CurrencyDTO>>
 
+    @Query("SELECT * FROM currencies_dto")
+    fun currencies() : List<CurrencyDTO>
+
 }

@@ -2,6 +2,7 @@ package com.currency.exchange.app.ui.screens.dashboard
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.currency.exchange.app.ui.extensions.runInThread
 import com.currency.exchange.datamodule.domain.model.Screen
 import com.currency.exchange.datamodule.data.interfaces.ISharedDataRepository
 import com.currency.exchange.datamodule.data.repositories.navigateTo
@@ -16,6 +17,12 @@ class DashboardViewModel @Inject constructor(
     private val currencyRepository: ICurrencyRepository,
     private val sharedDataRepository: ISharedDataRepository,
 ) : ViewModel() {
+
+    init {
+        runInThread {
+            currencyRepository.reload()
+        }
+    }
 
     private val sellSum = MutableStateFlow(0f)
     private val buySum = MutableStateFlow(0f)
