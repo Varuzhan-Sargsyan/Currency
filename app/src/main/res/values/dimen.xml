@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="rotation_start">-180.0</dimen>
+    <dimen name="rotation_end">360.0</dimen>
+    <dimen name="scale_start">0.0</dimen>
+    <dimen name="scale_end">1</dimen>
+</resources>
