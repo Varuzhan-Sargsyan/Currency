@@ -1,12 +1,14 @@
 package com.currency.exchange.datamodule.domain.di
 
 import com.currency.exchange.datamodule.data.di.DataModule
-import com.currency.exchange.datamodule.data.interfaces.IDataRepository
-import com.currency.exchange.datamodule.data.interfaces.ILocalRepository
-import com.currency.exchange.datamodule.data.interfaces.ISharedDataRepository
+import com.currency.exchange.datamodule.data.interfaces.ILocalDataRepository
+import com.currency.exchange.datamodule.data.interfaces.ICacheDataRepository
+import com.currency.exchange.datamodule.data.interfaces.IRemoteDataRepository
+import com.currency.exchange.datamodule.data.interfaces.ISharedPrefs
 import com.currency.exchange.datamodule.domain.repositories.CurrencyRepository
 import com.currency.exchange.datamodule.domain.interfaces.ICurrencyRepository
 import com.currency.exchange.datamodule.domain.interfaces.ISettingsRepository
+import com.currency.exchange.datamodule.domain.repositories.ReloadDataUseCase
 import com.currency.exchange.datamodule.domain.repositories.SettingsRepository
 import dagger.Module
 import dagger.Provides
@@ -20,18 +22,27 @@ class DomainModule {
 
     @Singleton
     @Provides
-    fun provideCurrencyRepository(
-        dataRepository: IDataRepository,
-        sharedDataRepository: ISharedDataRepository,
-        localRepository: ILocalRepository
-    ) = CurrencyRepository(
-            dataRepository = dataRepository,
-            sharedDataRepository = sharedDataRepository,
-            localRepository = localRepository
-        ) as ICurrencyRepository
+    fun provideCurrencyRepository(localDataRepository: ILocalDataRepository) =
+        CurrencyRepository(localDataRepository = localDataRepository) as ICurrencyRepository
 
     @Singleton
     @Provides
-    fun provideSettingsRepository(localRepository: ILocalRepository) =
-        SettingsRepository(localRepository = localRepository) as ISettingsRepository
+    fun provideSettingsRepository(
+        sharedPreferences: ISharedPrefs,
+        cacheDataRepository: ICacheDataRepository,
+    ) = SettingsRepository(
+            sharedPrefs = sharedPreferences,
+            cacheDataRepository = cacheDataRepository
+        ) as ISettingsRepository
+
+    @Singleton
+    @Provides
+    fun provideReloadDataUseCase(
+        remoteDataRepository: IRemoteDataRepository,
+        localDataRepository: ILocalDataRepository
+    ) = ReloadDataUseCase(
+        remoteDataRepository = remoteDataRepository,
+        localDataRepository = localDataRepository
+    )
+
 }

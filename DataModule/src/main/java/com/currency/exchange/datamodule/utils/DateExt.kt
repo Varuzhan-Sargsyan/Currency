@@ -18,3 +18,6 @@ object Const {
 fun Date.toCurrencyDateString() =
     dateFormatter.get()?.format(this) ?: ""
 
+inline fun <reified T> Any?.isListOfType(): Boolean {
+    return this is List<*> && this.all { it is T }
+}

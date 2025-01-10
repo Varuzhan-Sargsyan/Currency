@@ -2,23 +2,24 @@ package com.currency.exchange.app.ui.screens
 
 import androidx.lifecycle.ViewModel
 import com.currency.exchange.app.ui.extensions.runInThread
-import com.currency.exchange.datamodule.data.interfaces.ISharedDataRepository
+import com.currency.exchange.datamodule.data.interfaces.ICacheDataRepository
 import com.currency.exchange.datamodule.data.repositories.navigateBack
 import com.currency.exchange.datamodule.data.repositories.navigateTo
 import com.currency.exchange.datamodule.data.repositories.screenFlow
-import com.currency.exchange.datamodule.domain.interfaces.ICurrencyRepository
 import com.currency.exchange.datamodule.domain.interfaces.ISettingsRepository
 import com.currency.exchange.datamodule.domain.model.Screen
+import com.currency.exchange.datamodule.domain.repositories.ReloadDataUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val sharedDataRepository: ISharedDataRepository,
-    private val currencyRepository: ICurrencyRepository,
+    private val sharedDataRepository: ICacheDataRepository,
+    private val reloadDataUseCase: ReloadDataUseCase,
     settingsRepository: ISettingsRepository,
 ) : ViewModel() {
 
@@ -33,6 +34,8 @@ class MainViewModel @Inject constructor(
             delay(1500)
             _isReady.value = true
         }
+
+        reloadData()
     }
 
     fun navigateBack() =
@@ -40,8 +43,12 @@ class MainViewModel @Inject constructor(
 
     fun navigateToSettings() = sharedDataRepository.navigateTo(Screen.Settings)
 
-    fun reload() =
+    fun reloadData() {
         runInThread {
-            currencyRepository.reload()
+            reloadDataUseCase
+                .invoke()
+                .catch { }
+                .collect {  }
         }
+    }
 }
