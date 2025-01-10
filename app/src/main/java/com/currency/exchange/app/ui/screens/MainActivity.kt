@@ -96,7 +96,7 @@ class MainActivity : ComponentActivity() {
                         when (currentRoute.routeToScreen()) {
                             Screen.Dashboard -> DashboardBar { viewModel.navigateToSettings() }
                             Screen.Currencies -> CurrenciesBar(
-                                onReload = { viewModel.reload() },
+                                onReload = { viewModel.reloadData() },
                                 onBack = { viewModel.navigateBack() }
                             )
                             Screen.Settings -> SettingsBar { viewModel.navigateBack() }

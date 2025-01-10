@@ -1,8 +1,8 @@
 package com.currency.exchange.datamodule.data.interfaces
 
 import android.content.SharedPreferences
-import com.currency.exchange.datamodule.data.interfaces.ILocalRepository.Companion.KEY_BUY_CURRENCY
-import com.currency.exchange.datamodule.data.interfaces.ILocalRepository.Companion.KEY_SELL_CURRENCY
+import com.currency.exchange.datamodule.data.interfaces.ISharedPrefs.Companion.KEY_BUY_CURRENCY
+import com.currency.exchange.datamodule.data.interfaces.ISharedPrefs.Companion.KEY_SELL_CURRENCY
 import com.currency.exchange.datamodule.utils.JsonHelper.fromJson
 import com.currency.exchange.datamodule.domain.model.Currency
 import kotlinx.coroutines.CoroutineScope
@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlin.jvm.java
 
-interface ILocalRepository {
+interface ISharedPrefs {
 
     companion object {
         const val PREF = "MyAppPrefFile"
@@ -34,18 +34,18 @@ interface ILocalRepository {
 
 }
 
-fun ILocalRepository.sellCurrency(currency: Currency?) =
+fun ISharedPrefs.sellCurrency(currency: Currency?) =
     save(KEY_SELL_CURRENCY, currency)
 
-fun ILocalRepository.buyCurrency(currency: Currency?) =
+fun ISharedPrefs.buyCurrency(currency: Currency?) =
     save(KEY_BUY_CURRENCY, currency)
 
-fun ILocalRepository.subscribeToSellCurrency(scope: CoroutineScope) =
+fun ISharedPrefs.subscribeToSellCurrency(scope: CoroutineScope) =
     sharedPref
         .getFlowForKey<Currency>(KEY_SELL_CURRENCY)
         .stateIn(scope, SharingStarted.Eagerly, null as Currency?)
 
-fun ILocalRepository.subscribeToBuyCurrency(scope: CoroutineScope) =
+fun ISharedPrefs.subscribeToBuyCurrency(scope: CoroutineScope) =
     sharedPref
         .getFlowForKey<Currency>(KEY_BUY_CURRENCY)
         .stateIn(scope, SharingStarted.Eagerly, null as Currency?)
@@ -63,5 +63,5 @@ inline fun <reified T> SharedPreferences.getFlowForKey(keyOfObject: String) = ca
     awaitClose { unregisterOnSharedPreferenceChangeListener(listener) }
 }.buffer(Channel.UNLIMITED) // trySend never fails
 
-inline fun <reified T> ILocalRepository.flow(keyOfObject: String) =
+inline fun <reified T> ISharedPrefs.flow(keyOfObject: String) =
     sharedPref.getFlowForKey<T>(keyOfObject)
