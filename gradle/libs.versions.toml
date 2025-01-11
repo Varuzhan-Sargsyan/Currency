@@ -1,6 +1,6 @@
 [versions]
 accompanistNavigationAnimation = "0.30.1"
-agp = "8.9.0-alpha08"
+agp = "8.9.0-alpha09"
 coilCompose = "2.1.0"
 compiler = "1.1.1"
 converterGson = "2.11.0"

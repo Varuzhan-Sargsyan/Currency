@@ -8,6 +8,8 @@ import com.currency.exchange.datamodule.data.interfaces.ISharedPrefs
 import com.currency.exchange.datamodule.domain.repositories.CurrencyRepository
 import com.currency.exchange.datamodule.domain.interfaces.ICurrencyRepository
 import com.currency.exchange.datamodule.domain.interfaces.ISettingsRepository
+import com.currency.exchange.datamodule.domain.interfaces.RateFlow
+import com.currency.exchange.datamodule.domain.repositories.RateFlowUseCase
 import com.currency.exchange.datamodule.domain.repositories.ReloadDataUseCase
 import com.currency.exchange.datamodule.domain.repositories.SettingsRepository
 import dagger.Module
@@ -45,4 +47,11 @@ class DomainModule {
         localDataRepository = localDataRepository
     )
 
+    @Singleton
+    @Provides
+    fun provideRateFlowUseCase(
+        localDataRepository: ILocalDataRepository
+    ) = RateFlowUseCase(
+        localDataRepository = localDataRepository
+    ) as RateFlow
 }

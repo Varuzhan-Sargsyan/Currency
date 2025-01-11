@@ -11,13 +11,10 @@ object Const {
         SimpleDateFormat("yyyy-MM-dd", Locale.US) // Use a fixed locale for consistency
     }
 
-    fun now() =
+    fun now() : Date =
         Calendar.getInstance(Locale.getDefault()).time
 }
 
 fun Date.toCurrencyDateString() =
     dateFormatter.get()?.format(this) ?: ""
 
-inline fun <reified T> Any?.isListOfType(): Boolean {
-    return this is List<*> && this.all { it is T }
-}

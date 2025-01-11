@@ -14,13 +14,13 @@ class Converters {
 
     // Rate map Converters
     @TypeConverter
-    fun fromRateMap(rates: Map<String, Double>) : String {
+    fun fromRateMap(rates: Map<String, Float>) : String {
         return gson.toJson(rates)
     }
 
     @TypeConverter
-    fun toRateMap(nameJson: String): Map<String, Double> {
-        val type = object : TypeToken<Map<String, Double>>() {}.type
+    fun toRateMap(nameJson: String): Map<String, Float> {
+        val type = object : TypeToken<Map<String, Float>>() {}.type
         return gson.fromJson(nameJson, type)
     }
     // NameDTO Converters

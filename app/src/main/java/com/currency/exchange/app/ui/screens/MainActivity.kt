@@ -43,22 +43,22 @@ class MainActivity : ComponentActivity() {
                 ObjectAnimator.ofFloat(
                     screen.iconView,
                     View.SCALE_X,
-                    0.4f,
-                    0.0f
+                    1.0f,
+                    0.75f
                 ).apply {
                     interpolator = android.view.animation.BounceInterpolator()
-                    duration = 1000L
+                    duration = 2000L
                     doOnEnd { screen.remove() }
                 }.start()
 
                 ObjectAnimator.ofFloat(
                     screen.iconView,
                     View.SCALE_Y,
-                    0.4f,
-                    0.0f
+                    1f,
+                    0.75f
                 ).apply {
                     interpolator = android.view.animation.BounceInterpolator()
-                    duration = 1000L
+                    duration = 2000L
                     doOnEnd { screen.remove() }
                 }.start()
             }

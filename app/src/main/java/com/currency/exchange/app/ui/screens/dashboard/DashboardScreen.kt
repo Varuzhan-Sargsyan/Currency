@@ -64,8 +64,8 @@ fun DashboardScreen(viewModel: DashboardViewModel = hiltViewModel()) {
     val sellCurrency = viewModel.flowSellCurrency().collectAsState(null)
     val buyCurrency = viewModel.flowBuyCurrency().collectAsState(null)
 
-    val sellSum = viewModel.sellSumFlow().collectAsState(0f)
-    val buySum = viewModel.buySumFlow().collectAsState(0f)
+    val sellSum = viewModel.sellSumFlow().collectAsState(1.0f)
+    val buySum = viewModel.buySumFlow().collectAsState(1.0f)
 
     Column(
         modifier = Modifier
@@ -76,7 +76,9 @@ fun DashboardScreen(viewModel: DashboardViewModel = hiltViewModel()) {
             title = stringResource(R.string.title_you_pay),
             currency = sellCurrency.value ?: emptyCurrency(),
             sum = sellSum.value,
-            onSum = viewModel::setSellSum,
+            onSum = { sum ->
+                viewModel.setSellSum(sum)
+            },
             onCurrency = viewModel::selectSellCurrency
         )
         Spacer(modifier = Modifier.size(paddingBig))
@@ -84,7 +86,7 @@ fun DashboardScreen(viewModel: DashboardViewModel = hiltViewModel()) {
             title = stringResource(R.string.title_you_receive),
             currency = buyCurrency.value ?: emptyCurrency(),
             sum = buySum.value,
-            onSum = viewModel::setBuySum,
+            onSum = {  },
             onCurrency = viewModel::selectBuyCurrency
         )
     }
@@ -108,7 +110,9 @@ fun CurrencyView(
             .padding(noPadding)
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth().height(dashboardCurrencyRowHeight),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(dashboardCurrencyRowHeight),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             EditText(
@@ -149,7 +153,8 @@ fun CurrencyView(
             ) {
                 NetworkImage(
                     modifier = Modifier
-                        .iconModifier(iconPadding = noPadding).clip(CircleShape),
+                        .iconModifier(iconPadding = noPadding)
+                        .clip(CircleShape),
                     contentScale = ContentScale.Crop,
                     imageUrl = currency.imageFlagUrl(),
                     contentDescription = "Arrow down button"
@@ -173,7 +178,9 @@ fun CurrencyView(
 fun CurrencyViewPreview() {
     val list = testCurrencies + emptyCurrency()
     CurrencyAppTheme(Theme.dark()) {
-        LazyColumn (modifier = Modifier.fillMaxWidth().padding(24.dp)) {
+        LazyColumn (modifier = Modifier
+            .fillMaxWidth()
+            .padding(24.dp)) {
             itemsIndexed(list) { index, currency ->
                 CurrencyView(
                     title = stringResource(R.string.title_you_pay),

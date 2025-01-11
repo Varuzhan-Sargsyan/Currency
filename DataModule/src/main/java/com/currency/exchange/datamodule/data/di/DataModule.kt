@@ -35,10 +35,8 @@ class DataModule {
     @Provides
     fun provideDataRepository(
         appDatabase: AppDatabase,
-        coroutineScope: CoroutineScope
     ) = LocalDataRepository(
         appDatabase = appDatabase,
-        coroutineScope = coroutineScope
     ) as ILocalDataRepository
 
     @Singleton

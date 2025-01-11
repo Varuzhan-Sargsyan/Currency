@@ -15,4 +15,7 @@ interface ILocalDataRepository {
     suspend fun saveCurrencies(currencies: List<CurrencyDTO>)
     suspend fun saveCountries(countries: List<CountryDTO>)
     suspend fun saveRate(rateDTO: RateDTO)
+
+    suspend fun rateDTO(code: String, date: String) : Flow<RateDTO?>
+
 }
