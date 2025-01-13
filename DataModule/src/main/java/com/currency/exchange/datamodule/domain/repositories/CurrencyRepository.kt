@@ -17,10 +17,36 @@ class CurrencyRepository(
         ) { currencies, countries ->
             if (currencies.isEmpty() || countries.isEmpty())
                 emptyList<Currency>()
-            else
+            else {
+//                val acceptableCurrencyOfCountries = countries.map { it.currencyName }
+//                val filteredCountries = countries
+//                    .filter { country ->
+//
+//                    }
+//                val filteredCurrencies = currencies
+//                    .filter { currencyDTO ->
+//                        currencyDTO.code in localDataRepository.acceptableCountries.values
+//                    }
+                val internationalCurrencies = internationalCurrencies()
+                val internationalCurrencyCodes = internationalCurrencies.map { it.code }
+                val currencyCodes = currencies.map { it.code }
+                val filteredCountries = countries
+                    .filter {
+                        it.currencies.keys.any { code -> code in currencyCodes && code !in internationalCurrencyCodes }
+                    }.associateBy { it.currencyName }
                 currencies.map { currencyDTO ->
-                    Currency(currencyDTO, countries.firstOrNull { it.currencies.keys.contains(currencyDTO.code) })
-                }
+                    Currency(
+                        currencyDTO,
+                        filteredCountries[currencyDTO.code]
+                    )
+                }// + internationalCurrencies
+            }
         }
+
+    private fun internationalCurrencies() : List<Currency> =
+        listOf(
+            Currency.defaultCurrency()
+        )
+
 }
 

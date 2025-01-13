@@ -6,7 +6,7 @@ import com.currency.exchange.datamodule.utils.Const
 import kotlinx.coroutines.flow.Flow
 import java.util.Date
 
-interface RateFlow {
+interface IRateFlow {
     fun invoke(
         sellCurrency: Currency,
         buyCurrency: Currency,

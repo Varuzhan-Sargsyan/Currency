@@ -5,6 +5,6 @@ import retrofit2.Response
 import retrofit2.http.GET
 
 interface CountryApi {
-    @GET("v3.1/all?fields=name,flags,currencies")
+    @GET("v3.1/all?fields=name,flags,currencies,cca2")
     suspend fun downloadCountries() : Response<List<CountryDTO>>
 }

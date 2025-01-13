@@ -6,7 +6,7 @@ import com.currency.exchange.datamodule.domain.model.Screen
 import com.currency.exchange.datamodule.data.interfaces.ICacheDataRepository
 import com.currency.exchange.datamodule.data.repositories.navigateTo
 import com.currency.exchange.datamodule.domain.interfaces.ISettingsRepository
-import com.currency.exchange.datamodule.domain.interfaces.RateFlow
+import com.currency.exchange.datamodule.domain.interfaces.IRateFlow
 import com.currency.exchange.datamodule.domain.model.Currency
 import com.currency.exchange.datamodule.domain.model.Rate
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,7 +24,7 @@ import javax.inject.Inject
 class DashboardViewModel @Inject constructor(
     private val sharedDataRepository: ICacheDataRepository,
     private val settingsRepository: ISettingsRepository,
-    private val rateFlow: RateFlow
+    private val rateFlow: IRateFlow
 ) : ViewModel() {
 
     private val sellCurrency: Flow<Currency?> = settingsRepository.sellCurrencyFlow(viewModelScope)

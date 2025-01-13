@@ -3,7 +3,6 @@ package com.currency.exchange.datamodule.data.interfaces
 import com.currency.exchange.datamodule.data.model.entities.CurrencyDTO
 import com.currency.exchange.datamodule.data.model.entities.CountryDTO
 import com.currency.exchange.datamodule.data.model.entities.RateDTO
-import com.currency.exchange.datamodule.data.model.response.Response
 import kotlinx.coroutines.flow.Flow
 
 interface ILocalDataRepository {
@@ -17,5 +16,4 @@ interface ILocalDataRepository {
     suspend fun saveRate(rateDTO: RateDTO)
 
     suspend fun rateDTO(code: String, date: String) : Flow<RateDTO?>
-
 }

@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "c3d1f19cfdf87c716e17bda8db5ffb7f",
+    "identityHash": "0cf610db4122f8f68225ef461a4cfe8a",
     "entities": [
       {
         "tableName": "currencies_dto",
@@ -71,12 +71,12 @@
       },
       {
         "tableName": "countries_dto",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `flags` TEXT NOT NULL, `currencies` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`countryCode` TEXT NOT NULL, `name` TEXT NOT NULL, `flags` TEXT NOT NULL, `currencies` TEXT NOT NULL, PRIMARY KEY(`countryCode`))",
         "fields": [
           {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "INTEGER",
+            "fieldPath": "countryCode",
+            "columnName": "countryCode",
+            "affinity": "TEXT",
             "notNull": true
           },
           {
@@ -99,9 +99,9 @@
           }
         ],
         "primaryKey": {
-          "autoGenerate": true,
+          "autoGenerate": false,
           "columnNames": [
-            "id"
+            "countryCode"
           ]
         },
         "indices": [],
@@ -111,7 +111,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c3d1f19cfdf87c716e17bda8db5ffb7f')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0cf610db4122f8f68225ef461a4cfe8a')"
     ]
   }
 }
